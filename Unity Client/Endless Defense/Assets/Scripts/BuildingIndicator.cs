@@ -8,6 +8,8 @@ public class BuildingIndicator : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private GridIndicator gridIndicator;
 
+    public GridIndicator GridIndicator => gridIndicator;
+
     public void SetBuilding(Buildable buildable)
     {
         if (buildable == null)

@@ -10,6 +10,7 @@ public class Buildable : BattleObject
 
     public Sprite Sprite => GetComponent<SpriteRenderer>()?.sprite;
     public Vector2 Size => size;
+    public GridIndicator GridIndicator => gridIndicator;
 
     protected override void Awake()
     {
