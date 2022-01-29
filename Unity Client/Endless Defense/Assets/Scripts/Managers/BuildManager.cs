@@ -9,7 +9,7 @@ public class BuildManager : MonoBehaviour
 {
     public enum BuildingType
     {
-        TurrentLevel1
+        TurretLevel1, TurretLevel2, TurretLevel3
     }
 
     [Serializable]
@@ -88,7 +88,7 @@ public class BuildManager : MonoBehaviour
         buildingIndicator.SetActive(false);
         _camera = Camera.main;
 
-        InitializeGrid(21, 21);
+        InitializeGrid(11, 11);
     }
 
     public void InitializeGrid(uint width, uint height)
@@ -97,6 +97,9 @@ public class BuildManager : MonoBehaviour
         _placedBuildings = new Buildable[width, height];
     }
 
+    /// <summary>
+    /// Get all the of unique buildables in an area, giving a center position and search size
+    /// </summary>
     private HashSet<Buildable> GetBuildablesAtPosition(Vector2 position, Vector2 size)
     {
         List<(uint x, uint y)> gridIndexes = GetPlacedBuildingIndexes(position, size);
@@ -105,6 +108,12 @@ public class BuildManager : MonoBehaviour
         HashSet<Buildable> buildables = new HashSet<Buildable>();
         foreach (var gridIndex in gridIndexes)
         {
+            // Ignore if out of bounds
+            if (gridIndex.x >= _gridSize.Item1 || gridIndex.y >= _gridSize.Item2)
+            {
+                continue;
+            }
+            
             Buildable buildable = _placedBuildings[gridIndex.Item1, gridIndex.Item2];
             if (buildable != null)
             {
@@ -115,6 +124,9 @@ public class BuildManager : MonoBehaviour
         return buildables;
     }
 
+    /// <summary>
+    /// Get a list of indexes a building would take up
+    /// </summary>
     private List<(uint x, uint y)> GetPlacedBuildingIndexes(Vector2 position, Vector2 size, bool debugging = false)
     {
         position = position * gridsPerUnit;
@@ -141,6 +153,9 @@ public class BuildManager : MonoBehaviour
         return indexes;
     }
 
+    /// <summary>
+    /// Get the snapped world space position on a single axis based on building size
+    /// </summary>
     private float GetRoundedPosition(float position, uint size)
     {
         if (size % 2 != 0)
@@ -155,6 +170,9 @@ public class BuildManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Get the starting grid index and ending grid index that one axis of a rectangle would take up
+    /// </summary>
     private (uint start, uint endExclusive) GetGridIndexes(float roundedPosition, uint size, uint gridSize)
     {
         if (size % 2 != 0)
@@ -168,15 +186,16 @@ public class BuildManager : MonoBehaviour
         else
         {
             // Even
-            float middleGridIndex = roundedPosition + (gridSize / 2f);
-            uint startIndex = (uint)Mathf.Round(middleGridIndex - (size / 2f) - 0.5f);
-            uint endIndex = (uint)Mathf.Round(middleGridIndex + (size / 2f) - 0.5f);
+            float middleGridIndex = roundedPosition + (gridSize / 2f) - 0.5f;
+            uint startIndex = (uint)Mathf.Round(middleGridIndex - (size / 2f) + 0.5f);
+            uint endIndex = (uint)Mathf.Round(middleGridIndex + (size / 2f) + 0.5f);
             return (startIndex, endIndex);
         }
     }
 
     public void OnBuildButtonClicked(BuildingTypeComponent buildingType)
     {
+        // Setup and activate the building indicator
         if (buildingPrefabs.TryGetValue(buildingType.BuildingType, out Buildable buildable))
         {
             _selectedBuilding = buildable;
@@ -187,7 +206,6 @@ public class BuildManager : MonoBehaviour
         {
             Debug.LogError($"Attempted to build a building type that isn't in buildingPrefabs, building type: {buildingType.BuildingType}");
         }
-        
     }
 
     private void Update()
@@ -195,9 +213,10 @@ public class BuildManager : MonoBehaviour
         if (_selectedBuilding != null && _camera != null)
         {
             // Snap to grid under mouse
-            // todo snap it using GetRoundedPosition()
             Vector2 mouseWorldPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 snappedPosition = new Vector2(Mathf.Round(mouseWorldPosition.x), Mathf.Round(mouseWorldPosition.y));
+            uint selectedBuildSizeX = (uint) Mathf.Floor(_selectedBuilding.Size.x);
+            uint selectedBuildSizeY = (uint) Mathf.Floor(_selectedBuilding.Size.y);
+            Vector2 snappedPosition = new Vector2(GetRoundedPosition(mouseWorldPosition.x, selectedBuildSizeX), GetRoundedPosition(mouseWorldPosition.y, selectedBuildSizeY));
             buildingIndicator.transform.position = snappedPosition;
             
             // DEBUGGING
@@ -224,6 +243,7 @@ public class BuildManager : MonoBehaviour
             bool overlapping = overlappingBuildables.Count > 0;
             buildingIndicator.GridIndicator.SetSuccess(!overlapping);
             
+            // todo: check that we are clicking on the grid and not on a ui element
             if (Input.GetMouseButtonDown(0))
             {
                 // Check if we can afford it
