@@ -1,18 +1,37 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleObject : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private float startingHealth;
+
+    private float _health;
+
+    protected virtual void Awake()
+    {
+        _health = startingHealth;
+    }
+
+    public virtual void Step()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public Vector2 GetGridPosition()
     {
-        
+        return transform.position;
+    }
+
+    public void SetPosition(Vector2 gridPosition)
+    {
+        transform.position = gridPosition;
+    }
+
+    public void MoveInDirection(Vector2 direction)
+    {
+        Vector2 newPosition = GetGridPosition() + direction;
+        SetPosition(newPosition);
     }
 }
