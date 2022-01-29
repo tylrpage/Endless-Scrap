@@ -62,6 +62,23 @@ public class BuildManager : MonoBehaviour
         {
             return a.Scrap <= b.Scrap;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Currencies currencies)
+            {
+                return this == currencies;
+            }
+            else
+            {
+                return base.Equals(obj);
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 
     public static event Action<Currencies> CurrenciesUpdated;
@@ -95,6 +112,12 @@ public class BuildManager : MonoBehaviour
     {
         _gridSize = (width, height);
         _placedBuildings = new Buildable[width, height];
+        
+        // Place existing buildables into grid
+        foreach (Buildable existingBuildable in buildingContainer.GetComponentsInChildren<Buildable>())
+        {
+            AddBuildableToGrid(existingBuildable, existingBuildable.transform.position);
+        }
     }
 
     /// <summary>
@@ -255,12 +278,7 @@ public class BuildManager : MonoBehaviour
                     {
                         // Create the building
                         Buildable newBuildable = Instantiate(_selectedBuilding, snappedPosition, Quaternion.identity, buildingContainer);
-                        List<(uint, uint)> gridIndexes = GetPlacedBuildingIndexes(snappedPosition, newBuildable.Size);
-                        // Place reference to buildable in each grid is occupies
-                        foreach (var gridIndex in gridIndexes)
-                        {
-                            _placedBuildings[gridIndex.Item1, gridIndex.Item2] = newBuildable;
-                        }
+                        AddBuildableToGrid(newBuildable, snappedPosition);
                     
                         // Debit the currencies
                         _currencies = _currencies - cost;
@@ -278,6 +296,21 @@ public class BuildManager : MonoBehaviour
                     Debug.Log("Cannot afford!");
                 }
             }
+        }
+    }
+
+    private void AddBuildableToGrid(Buildable buildable, Vector2 position)
+    {
+        List<(uint, uint)> gridIndexes = GetPlacedBuildingIndexes(position, buildable.Size);
+        // Place reference to buildable in each grid is occupies
+        foreach (var gridIndex in gridIndexes)
+        {
+            if (_placedBuildings[gridIndex.Item1, gridIndex.Item2] != null)
+            {
+                Debug.LogError($"Attempted to add buildable to an occupied grid space, gridIndex: {gridIndex}, existingBuildable: {_placedBuildings[gridIndex.Item1, gridIndex.Item2].gameObject.name}, newBuildable: {buildable.gameObject.name}");
+            }
+            
+            _placedBuildings[gridIndex.Item1, gridIndex.Item2] = buildable;
         }
     }
     
