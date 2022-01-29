@@ -267,7 +267,7 @@ public class BuildManager : MonoBehaviour
             buildingIndicator.GridIndicator.SetSuccess(!overlapping);
             
             // todo: check that we are clicking on the grid and not on a ui element
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !CameraControls.IsDragging())
             {
                 // Check if we can afford it
                 Currencies cost = _selectedBuilding.GetCost();
