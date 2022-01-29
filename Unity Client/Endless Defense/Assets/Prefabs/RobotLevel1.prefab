@@ -96,3 +96,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 2
+  movingObjectUIPrefab: {fileID: 0}
+  size: {x: 0.5, y: 0.5}

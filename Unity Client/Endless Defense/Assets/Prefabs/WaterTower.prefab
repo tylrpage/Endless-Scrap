@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 50
+  movingObjectUIPrefab: {fileID: 9072812824808166767, guid: 374e9783d2dff4541b48e26363af9e40, type: 3}
   cost:
     Scrap: 0
   size: {x: 3, y: 3}

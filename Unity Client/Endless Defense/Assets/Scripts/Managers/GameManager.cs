@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     public BattleManager BattleManager;
     public BuildManager BuildManager;
     public GridManager GridManager;
+    public RandomManager RandomManager;
+    public MovingObjectUIManager MovingObjectUIManager;
     
     private static GameManager _instance;
     public static GameManager Instance => _instance;
