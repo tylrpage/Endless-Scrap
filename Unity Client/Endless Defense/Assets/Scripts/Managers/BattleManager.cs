@@ -13,17 +13,6 @@ public class BattleManager : MonoBehaviour
     private bool _playing = false;
     private float _lastStepTime;
 
-    private static BattleManager _instance;
-    public static BattleManager Instance => _instance;
-
-    private void Awake()
-    {
-        if (_instance == null)
-        {
-            _instance = this;
-        }
-    }
-
     private void Update()
     {
         if (_playing)

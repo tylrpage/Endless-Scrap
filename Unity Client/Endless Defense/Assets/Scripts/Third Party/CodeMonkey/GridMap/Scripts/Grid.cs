@@ -76,8 +76,17 @@ public class Grid<TGridObject> {
         return cellSize;
     }
 
-    public Vector3 GetWorldPosition(int x, int y) {
+    public Vector3 GetWorldPosition(int x, int y)
+    {
         return new Vector3(x, y) * cellSize + originPosition;
+    }
+
+    public Vector3 GetWorldPositionOfCenter(int x, int y)
+    {
+        Vector3 worldPosition = GetWorldPosition(x, y);
+        // Offset the world positions by half a cell size so that the world position is in the middle of the box
+        float offsetForCenter = (cellSize / 2);
+        return new Vector3(worldPosition.x + offsetForCenter, worldPosition.y + offsetForCenter);
     }
 
     private void GetXY(Vector3 worldPosition, out int x, out int y) {

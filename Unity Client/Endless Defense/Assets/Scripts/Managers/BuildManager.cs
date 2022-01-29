@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Pathfinding;
 using UnityEngine;
 
 public class BuildManager : MonoBehaviour
@@ -83,6 +84,9 @@ public class BuildManager : MonoBehaviour
 
     public static event Action<Currencies> CurrenciesUpdated;
 
+    public (int, int) GridSize => _gridSize;
+    public Grid<Node<Buildable>> BuildablesGrid => _buildablesGrid;
+
     [SerializeField] private SerializableDictionary<BuildingType, Buildable> buildingPrefabs;
     [SerializeField] private BuildingIndicator buildingIndicator;
     [SerializeField] private Transform buildingContainer;
@@ -95,8 +99,8 @@ public class BuildManager : MonoBehaviour
     private Buildable _selectedBuilding;
     private Camera _camera;
 
-    private (uint, uint) _gridSize;
-    private Buildable[,] _placedBuildings;
+    private (int, int) _gridSize;
+    private Grid<Node<Buildable>> _buildablesGrid;
     private HashSet<Buildable> _previouslyOverlappedBuildings = new HashSet<Buildable>();
 
     private void Awake()
@@ -105,13 +109,14 @@ public class BuildManager : MonoBehaviour
         buildingIndicator.SetActive(false);
         _camera = Camera.main;
 
-        InitializeGrid(11, 11);
+        InitializeGrid(11, 11, 1);
     }
 
-    public void InitializeGrid(uint width, uint height)
+    public void InitializeGrid(int width, int height, float cellSize)
     {
         _gridSize = (width, height);
-        _placedBuildings = new Buildable[width, height];
+        Vector2 centeredPosition = new Vector2(-width / 2f * cellSize, -height / 2f * cellSize);
+        _buildablesGrid = new Grid<Node<Buildable>>(width, height, cellSize, centeredPosition, (grid, x, y) => new Node<Buildable>(x, y));
         
         // Place existing buildables into grid
         foreach (Buildable existingBuildable in buildingContainer.GetComponentsInChildren<Buildable>())
@@ -125,7 +130,7 @@ public class BuildManager : MonoBehaviour
     /// </summary>
     private HashSet<Buildable> GetBuildablesAtPosition(Vector2 position, Vector2 size)
     {
-        List<(uint x, uint y)> gridIndexes = GetPlacedBuildingIndexes(position, size);
+        List<(int x, int y)> gridIndexes = GetPlacedBuildingIndexes(position, size);
 
         // Get collection of unique buildables in these indexes
         HashSet<Buildable> buildables = new HashSet<Buildable>();
@@ -137,7 +142,7 @@ public class BuildManager : MonoBehaviour
                 continue;
             }
             
-            Buildable buildable = _placedBuildings[gridIndex.Item1, gridIndex.Item2];
+            Buildable buildable = _buildablesGrid.GetGridObject(gridIndex.Item1, gridIndex.Item2).Data;
             if (buildable != null)
             {
                 buildables.Add(buildable);
@@ -150,10 +155,10 @@ public class BuildManager : MonoBehaviour
     /// <summary>
     /// Get a list of indexes a building would take up
     /// </summary>
-    private List<(uint x, uint y)> GetPlacedBuildingIndexes(Vector2 position, Vector2 size, bool debugging = false)
+    private List<(int x, int y)> GetPlacedBuildingIndexes(Vector2 position, Vector2 size, bool debugging = false)
     {
         position = position * gridsPerUnit;
-        (uint, uint) flooredSize = ((uint) Mathf.Floor(size.x), (uint) Mathf.Floor(size.y));
+        (int, int) flooredSize = ((int) Mathf.Floor(size.x), (int) Mathf.Floor(size.y));
         (float, float) roundedPosition = (GetRoundedPosition(position.x, flooredSize.Item1), GetRoundedPosition(position.y, flooredSize.Item2));
 
         if (debugging)
@@ -164,10 +169,10 @@ public class BuildManager : MonoBehaviour
         var xIndexes = GetGridIndexes(roundedPosition.Item1, flooredSize.Item1, _gridSize.Item1);
         var yIndexes = GetGridIndexes(roundedPosition.Item2, flooredSize.Item2, _gridSize.Item2);
 
-        List<(uint x, uint y)> indexes = new List<(uint x, uint y)>();
-        for (uint i = xIndexes.start; i < xIndexes.endExclusive; i++)
+        List<(int x, int y)> indexes = new List<(int x, int y)>();
+        for (int i = xIndexes.start; i < xIndexes.endExclusive; i++)
         {
-            for (uint j = yIndexes.start; j < yIndexes.endExclusive; j++)
+            for (int j = yIndexes.start; j < yIndexes.endExclusive; j++)
             {
                 indexes.Add((i, j));
             }
@@ -179,7 +184,7 @@ public class BuildManager : MonoBehaviour
     /// <summary>
     /// Get the snapped world space position on a single axis based on building size
     /// </summary>
-    private float GetRoundedPosition(float position, uint size)
+    private float GetRoundedPosition(float position, int size)
     {
         if (size % 2 != 0)
         {
@@ -196,22 +201,22 @@ public class BuildManager : MonoBehaviour
     /// <summary>
     /// Get the starting grid index and ending grid index that one axis of a rectangle would take up
     /// </summary>
-    private (uint start, uint endExclusive) GetGridIndexes(float roundedPosition, uint size, uint gridSize)
+    private (int start, int endExclusive) GetGridIndexes(float roundedPosition, int size, int gridSize)
     {
         if (size % 2 != 0)
         {
             // Odd
             float middleGridIndex = roundedPosition + (gridSize / 2f);
-            uint startIndex = (uint)Mathf.Round(middleGridIndex - (size / 2f));
-            uint endIndex = (uint)Mathf.Round(middleGridIndex + (size / 2f));
+            int startIndex = (int)Mathf.Round(middleGridIndex - (size / 2f));
+            int endIndex = (int)Mathf.Round(middleGridIndex + (size / 2f));
             return (startIndex, endIndex);
         }
         else
         {
             // Even
             float middleGridIndex = roundedPosition + (gridSize / 2f) - 0.5f;
-            uint startIndex = (uint)Mathf.Round(middleGridIndex - (size / 2f) + 0.5f);
-            uint endIndex = (uint)Mathf.Round(middleGridIndex + (size / 2f) + 0.5f);
+            int startIndex = (int)Mathf.Round(middleGridIndex - (size / 2f) + 0.5f);
+            int endIndex = (int)Mathf.Round(middleGridIndex + (size / 2f) + 0.5f);
             return (startIndex, endIndex);
         }
     }
@@ -237,8 +242,8 @@ public class BuildManager : MonoBehaviour
         {
             // Snap to grid under mouse
             Vector2 mouseWorldPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-            uint selectedBuildSizeX = (uint) Mathf.Floor(_selectedBuilding.Size.x);
-            uint selectedBuildSizeY = (uint) Mathf.Floor(_selectedBuilding.Size.y);
+            int selectedBuildSizeX = (int) Mathf.Floor(_selectedBuilding.Size.x);
+            int selectedBuildSizeY = (int) Mathf.Floor(_selectedBuilding.Size.y);
             Vector2 snappedPosition = new Vector2(GetRoundedPosition(mouseWorldPosition.x, selectedBuildSizeX), GetRoundedPosition(mouseWorldPosition.y, selectedBuildSizeY));
             buildingIndicator.transform.position = snappedPosition;
             
@@ -301,16 +306,17 @@ public class BuildManager : MonoBehaviour
 
     private void AddBuildableToGrid(Buildable buildable, Vector2 position)
     {
-        List<(uint, uint)> gridIndexes = GetPlacedBuildingIndexes(position, buildable.Size);
-        // Place reference to buildable in each grid is occupies
+        List<(int, int)> gridIndexes = GetPlacedBuildingIndexes(position, buildable.Size);
+        // Place reference to buildable in each grid it occupies
         foreach (var gridIndex in gridIndexes)
         {
-            if (_placedBuildings[gridIndex.Item1, gridIndex.Item2] != null)
+            Node<Buildable> node = _buildablesGrid.GetGridObject(gridIndex.Item1, gridIndex.Item2);
+            if (node.Data != null)
             {
-                Debug.LogError($"Attempted to add buildable to an occupied grid space, gridIndex: {gridIndex}, existingBuildable: {_placedBuildings[gridIndex.Item1, gridIndex.Item2].gameObject.name}, newBuildable: {buildable.gameObject.name}");
+                Debug.LogError($"Attempted to add buildable to an occupied grid space, gridIndex: {gridIndex}, existingBuildable: {node.Data.gameObject.name}, newBuildable: {buildable.gameObject.name}");
             }
             
-            _placedBuildings[gridIndex.Item1, gridIndex.Item2] = buildable;
+            node.Data = buildable;
         }
     }
     
