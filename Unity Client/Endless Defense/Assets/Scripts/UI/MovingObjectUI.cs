@@ -10,6 +10,7 @@ public class MovingObjectUI : MonoBehaviour
     public Slider PlayerHealthSlider;
     public RectTransform PlayerHealthDamageFill;
     public float DamageTweenDuration;
+    public GameObject HealthPanel;
     
     private BattleObject _target;
     private Coroutine _damageTweenCR;
@@ -31,6 +32,9 @@ public class MovingObjectUI : MonoBehaviour
 
     public void SetHealth(float health, float maxHealth)
     {
+        // Hide health panel unless we are missing some health
+        HealthPanel.SetActive(health < maxHealth);
+        
         Vector2 oldAnchorMax = PlayerHealthSlider.fillRect.anchorMax;
         float oldValue = PlayerHealthSlider.value;
         PlayerHealthSlider.value = health / maxHealth;

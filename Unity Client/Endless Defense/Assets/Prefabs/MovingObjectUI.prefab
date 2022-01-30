@@ -256,6 +256,7 @@ MonoBehaviour:
   PlayerHealthSlider: {fileID: 114309067746858728}
   PlayerHealthDamageFill: {fileID: 2684235849680212945}
   DamageTweenDuration: 0.5
+  HealthPanel: {fileID: 4184113020256647100}
 --- !u!1 &1422439220271300
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,7 +454,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1593778675937110519}
   m_Layer: 0
-  m_Name: HealthAndShield
+  m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
