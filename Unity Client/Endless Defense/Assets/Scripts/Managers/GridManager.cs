@@ -22,8 +22,8 @@ public class GridManager : MonoBehaviour
         _mesh = new Mesh();
         debugGridMesh.mesh = _mesh;
         float cellSize = 0.5f;
-        int gridWidth = GameManager.Instance.BuildManager.GridSize.Item1 * (int)(1f / cellSize);
-        int gridHeight = GameManager.Instance.BuildManager.GridSize.Item2 * (int)(1f / cellSize);
+        int gridWidth = (GameManager.Instance.BuildManager.GridSize.Item1 + 10) * (int)(1f / cellSize);
+        int gridHeight = (GameManager.Instance.BuildManager.GridSize.Item2 + 10) * (int)(1f / cellSize);
         Vector2 centeredPosition = new Vector2(-gridWidth / 2f * cellSize, -gridHeight / 2f * cellSize);
         _smallEnemyPathfindingGrid = new Grid<PathfindingNode>(gridWidth, gridHeight, cellSize, centeredPosition, (grid, x, y) => new PathfindingNode(x, y));
         _enemyGrid = new Grid<EnemiesNode>(gridWidth, gridHeight, cellSize, centeredPosition, (grid, x, y) => new EnemiesNode(x, y));

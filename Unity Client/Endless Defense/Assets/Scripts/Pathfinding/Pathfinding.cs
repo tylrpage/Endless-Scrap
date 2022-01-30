@@ -19,7 +19,7 @@ namespace Pathfinding
     
     public class Pathfinding
     {
-        public static Path GetDirectPath(Grid<PathfindingNode> grid, Point start, Point end)
+        public static Path GetDirectPath<T>(Grid<T> grid, Point start, Point end)
         {
             // get diagonal distance
             int dx = end.X - start.X;
@@ -62,7 +62,7 @@ namespace Pathfinding
             return path;
         }
 
-        public static bool IsPathBlocked(Grid<PathfindingNode> pathGrid, Grid<Node<Buildable>> obstaclesGrid, Point position, Point destination, out Node<Buildable> blockingObstacleNode, out (int x, int y) blockDirection)
+        public static bool IsPathBlocked<T>(Grid<T> pathGrid, Grid<Node<Buildable>> obstaclesGrid, Point position, Point destination, out Node<Buildable> blockingObstacleNode, out (int x, int y) blockDirection)
         {
             int dx = destination.X - position.X;
             int dy = destination.Y - position.Y;
@@ -72,7 +72,7 @@ namespace Pathfinding
             {
                 Vector2 checkWorldPos = pathGrid.GetWorldPosition(destination.X, position.Y);
                 Node<Buildable> buildableNode = obstaclesGrid.GetGridObject(checkWorldPos);
-                if (buildableNode.Data != null)
+                if (buildableNode?.Data != null)
                 {
                     blockingObstacleNode = buildableNode;
                     blockDirection = (dx, 0);
@@ -84,7 +84,7 @@ namespace Pathfinding
             {
                 Vector2 checkWorldPos = pathGrid.GetWorldPosition(position.X, destination.Y);
                 Node<Buildable> buildableNode = obstaclesGrid.GetGridObject(checkWorldPos);
-                if (buildableNode.Data != null)
+                if (buildableNode?.Data != null)
                 {
                     blockingObstacleNode = buildableNode;
                     blockDirection = (0, dy);
@@ -96,7 +96,7 @@ namespace Pathfinding
             {
                 Vector2 checkWorldPos = pathGrid.GetWorldPosition(destination.X, destination.Y);
                 Node<Buildable> buildableNode = obstaclesGrid.GetGridObject(checkWorldPos);
-                if (buildableNode.Data != null)
+                if (buildableNode?.Data != null)
                 {
                     blockingObstacleNode = buildableNode;
                     blockDirection = (dx, dy);

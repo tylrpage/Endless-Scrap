@@ -12,8 +12,14 @@ public class BattleManager : MonoBehaviour
     private List<BattleObject> _battleObjects;
     private bool _playing = false;
     private float _lastStepTime;
+    private int _stepCount;
 
     public float SecondsPerStep => Util.LosePrecision(1f / stepsPerSecond);
+
+    private void Awake()
+    {
+        _battleObjects = new List<BattleObject>();
+    }
 
     private void Update()
     {
@@ -40,11 +46,6 @@ public class BattleManager : MonoBehaviour
             // For debugging purposes
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                if (_battleObjects == null)
-                {
-                    GetBattleObjects();
-                }
-                
                 StepAll();
             }
             else if (Input.GetKeyDown(KeyCode.Space))
@@ -54,21 +55,21 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    private void GetBattleObjects()
-    {
-        _battleObjects = battleObjectContainer.GetComponentsInChildren<BattleObject>().ToList();
-    }
-
     public void StartBattle()
     {
-        GetBattleObjects();
         _lastStepTime = Time.time;
         _playing = true;
     }
 
+    public void AddBattleObject(BattleObject battleObject)
+    {
+        _battleObjects.Add(battleObject);
+    }
+
     private void StepAll()
     {
-        //Debug.Log("Stepping");
+        _stepCount++;
+        
         foreach (var battleObject in _battleObjects)
         {
             // Step alive battle objects
@@ -77,5 +78,7 @@ public class BattleManager : MonoBehaviour
                 battleObject.OnStep();
             }
         }
+        
+        GameManager.Instance.HordeManager.OnStep(_stepCount);
     }
 }

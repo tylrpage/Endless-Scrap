@@ -14,7 +14,6 @@ public class RobotoLevel1 : BattleObject
     [SerializeField] private RobotAnimationController robotAnimationController;
     
     private Path _path;
-    private Grid<PathfindingNode> _pathfindingGrid;
 
     private Grid<EnemiesNode> _enemyGrid;
     // The grid we have moved into, this can vary from the path
@@ -28,11 +27,11 @@ public class RobotoLevel1 : BattleObject
     protected override void Awake()
     {
         base.Awake();
-        
-        InitializePath(Vector2.zero);
 
         _enemyGrid = GameManager.Instance.GridManager.EnemyGrid;
         GameManager.Instance.GridManager.AddEnemyToGrid(_enemyGrid, this, transform.position);
+        
+        InitializePath(Vector2.zero);
     }
 
     public override void Die()
@@ -44,16 +43,14 @@ public class RobotoLevel1 : BattleObject
 
     public void InitializePath(Vector2 destinationWorldPosition)
     {
-        _pathfindingGrid = GameManager.Instance.GridManager.SmallEnemyPathfindingGrid;
+        Point gridStartPoint = new Point();
+        Point gridEndPoint = new Point();
+        _enemyGrid.GetXY(transform.position, out gridStartPoint.X, out gridStartPoint.Y);
+        _enemyGrid.GetXY(destinationWorldPosition, out gridEndPoint.X, out gridEndPoint.Y);
         
-        var gridStartPosition = _pathfindingGrid.GetGridObject(transform.position);
-        var gridEndPosition = _pathfindingGrid.GetGridObject(destinationWorldPosition);
-        Point gridStartPoint = new Point(gridStartPosition.X, gridStartPosition.Y);
-        Point gridEndPoint = new Point(gridEndPosition.X, gridEndPosition.Y);
-        
-        _path = Pathfinding.Pathfinding.GetDirectPath(_pathfindingGrid, gridStartPoint, gridEndPoint);
-        _interpStart = _pathfindingGrid.GetWorldPositionOfCenter(_path.Start.X, _path.Start.Y);
-        _targetPosition = _pathfindingGrid.GetWorldPositionOfCenter(_path.Start.X, _path.Start.Y);
+        _path = Pathfinding.Pathfinding.GetDirectPath(_enemyGrid, gridStartPoint, gridEndPoint);
+        _interpStart = _enemyGrid.GetWorldPositionOfCenter(_path.Start.X, _path.Start.Y);
+        _targetPosition = _enemyGrid.GetWorldPositionOfCenter(_path.Start.X, _path.Start.Y);
         
         // debugging
         //GameManager.Instance.GridManager.DrawPath(_path);
@@ -87,7 +84,7 @@ public class RobotoLevel1 : BattleObject
             Point gridPositionPoint = new Point(_gridPosition.Item1, _gridPosition.Item2);
             
             Point destinationTilePosition = new Point(_path.Current.PathNextPathfindingNode.X, _path.Current.PathNextPathfindingNode.Y);
-            if (Pathfinding.Pathfinding.IsPathBlocked(_pathfindingGrid, obstacleGrid, gridPositionPoint, destinationTilePosition, out Node<Buildable> obstacleNode, out var blockDirection))
+            if (Pathfinding.Pathfinding.IsPathBlocked(_enemyGrid, obstacleGrid, gridPositionPoint, destinationTilePosition, out Node<Buildable> obstacleNode, out var blockDirection))
             {
                 bool directlyDiagonal = blockDirection.x != 0 && blockDirection.y != 0;
                 if (directlyDiagonal)
@@ -99,7 +96,7 @@ public class RobotoLevel1 : BattleObject
                         moveHorizontal, moveVertical
                     };
                     // Remove invalid positions (out of bounds)
-                    newGridPositionOptions.Where(x => _pathfindingGrid.IsValidPosition(x.Item1, x.Item2));
+                    newGridPositionOptions.Where(x => _enemyGrid.IsValidPosition(x.Item1, x.Item2));
                     int randomInt = GameManager.Instance.RandomManager.NextInt();
                     var randomChoice = Util.GetRandomElementFromList(newGridPositionOptions, randomInt);
                     MoveToGridPosition(randomChoice.Item1, randomChoice.Item2);
@@ -129,7 +126,7 @@ public class RobotoLevel1 : BattleObject
     private void MoveToGridPosition(int x, int y)
     {
         _gridPosition = (x, y);
-        Vector2 nextWorldPosition = _pathfindingGrid.GetWorldPositionOfCenter(x, y);
+        Vector2 nextWorldPosition = _enemyGrid.GetWorldPositionOfCenter(x, y);
         _interpStart = transform.position;
         _previousTargetPosition = _targetPosition;
         _targetPosition = nextWorldPosition;

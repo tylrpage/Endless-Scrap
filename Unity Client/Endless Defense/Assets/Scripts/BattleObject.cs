@@ -26,6 +26,8 @@ public class BattleObject : MonoBehaviour
         Vector3 offset = Vector3.up * (size.y / 2);
         _movingObjectUI = GameManager.Instance.MovingObjectUIManager.CreateMovingObject(this, movingObjectUIPrefabOverride, offset, size.x);
         _movingObjectUI.SetHealth(_health, startingHealth);
+        
+        GameManager.Instance.BattleManager.AddBattleObject(this);
     }
 
     public virtual void StepAction()

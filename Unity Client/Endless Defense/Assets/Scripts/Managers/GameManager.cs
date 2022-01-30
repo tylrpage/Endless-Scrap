@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public GridManager GridManager;
     public RandomManager RandomManager;
     public MovingObjectUIManager MovingObjectUIManager;
+    public HordeManager HordeManager;
     
     private static GameManager _instance;
     public static GameManager Instance => _instance;

@@ -18,4 +18,9 @@ public class RandomManager : MonoBehaviour
     {
         return _random.Next();
     }
+
+    public int NextInt(int max)
+    {
+        return _random.Next(max);
+    }
 }
