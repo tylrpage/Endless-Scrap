@@ -30,6 +30,12 @@ public class BattleObject : MonoBehaviour
         
     }
 
+    public virtual void Die()
+    {
+        Destroy(gameObject);
+        GameManager.Instance.MovingObjectUIManager.RemoveMovingObject(this);
+    }
+
     public Vector2 GetGridPosition()
     {
         return transform.position;
@@ -56,8 +62,7 @@ public class BattleObject : MonoBehaviour
         
         if (_health <= 0)
         {
-            // Die
-            // Remove from obstacles grid
+            Die();
         }
     }
 }

@@ -15,6 +15,17 @@ public class Buildable : BattleObject
         base.Awake();
         gridIndicator.SetSize(Size);
         gridIndicator.SetActive(false);
+        
+        // Add to obstacles
+        GameManager.Instance.BuildManager.AddBuildableToGrid(this, transform.position);
+    }
+
+    public override void Die()
+    {
+        // Remove from obstacles
+        GameManager.Instance.BuildManager.RemoveBuildableFromGrid(this, transform.position);
+        
+        base.Die();
     }
 
     public BuildManager.Currencies GetCost()

@@ -117,12 +117,6 @@ public class BuildManager : MonoBehaviour
         _gridSize = (width, height);
         Vector2 centeredPosition = new Vector2(-width / 2f * cellSize, -height / 2f * cellSize);
         _buildablesGrid = new Grid<Node<Buildable>>(width, height, cellSize, centeredPosition, (grid, x, y) => new Node<Buildable>(x, y));
-        
-        // Place existing buildables into grid
-        foreach (Buildable existingBuildable in buildingContainer.GetComponentsInChildren<Buildable>())
-        {
-            AddBuildableToGrid(existingBuildable, existingBuildable.transform.position);
-        }
     }
 
     /// <summary>
@@ -283,8 +277,7 @@ public class BuildManager : MonoBehaviour
                     {
                         // Create the building
                         Buildable newBuildable = Instantiate(_selectedBuilding, snappedPosition, Quaternion.identity, buildingContainer);
-                        AddBuildableToGrid(newBuildable, snappedPosition);
-                    
+
                         // Debit the currencies
                         _currencies = _currencies - cost;
                         UpdateCurrencies();
@@ -304,9 +297,9 @@ public class BuildManager : MonoBehaviour
         }
     }
 
-    private void AddBuildableToGrid(Buildable buildable, Vector2 position)
+    public void AddBuildableToGrid(Buildable buildable, Vector2 worldPosition)
     {
-        List<(int, int)> gridIndexes = GetPlacedBuildingIndexes(position, buildable.Size);
+        List<(int, int)> gridIndexes = GetPlacedBuildingIndexes(worldPosition, buildable.Size);
         // Place reference to buildable in each grid it occupies
         foreach (var gridIndex in gridIndexes)
         {
@@ -317,6 +310,22 @@ public class BuildManager : MonoBehaviour
             }
             
             node.Data = buildable;
+        }
+    }
+
+    public void RemoveBuildableFromGrid(Buildable buildable, Vector2 worldPosition)
+    {
+        List<(int, int)> gridIndexes = GetPlacedBuildingIndexes(worldPosition, buildable.Size);
+        // Place reference to buildable in each grid it occupies
+        foreach (var gridIndex in gridIndexes)
+        {
+            Node<Buildable> node = _buildablesGrid.GetGridObject(gridIndex.Item1, gridIndex.Item2);
+            if (node.Data == null)
+            {
+                Debug.LogError($"Attempted to add remove to an empty grid space, gridIndex: {gridIndex}, buildable: {buildable.gameObject.name}");
+            }
+            
+            node.Data = null;
         }
     }
     

@@ -823,6 +823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldSpaceCanvases: {fileID: 1591459794}
+  defaultMovingObjectUI: {fileID: 9072812824808166767, guid: 374e9783d2dff4541b48e26363af9e40, type: 3}
 --- !u!114 &219122317
 MonoBehaviour:
   m_ObjectHideFlags: 0

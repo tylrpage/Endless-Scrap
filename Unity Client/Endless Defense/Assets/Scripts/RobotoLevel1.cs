@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class RobotoLevel1 : BattleObject
 {
+    [SerializeField] private float damage;
+    
     private Path _path;
     private Grid<PathfindingNode> _grid;
 
@@ -37,6 +39,7 @@ public class RobotoLevel1 : BattleObject
             if (Pathfinding.Pathfinding.IsPathBlocked(_grid, obstacleGrid, _path, out Node<Buildable> obstacleNode))
             {
                 // Path is blocked, attacking what is blocking you
+                obstacleNode.Data.TakeDamage(damage);
             }
             else
             {

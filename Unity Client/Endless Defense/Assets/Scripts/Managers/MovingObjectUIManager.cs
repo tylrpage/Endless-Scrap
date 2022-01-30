@@ -36,4 +36,13 @@ public class MovingObjectUIManager : MonoBehaviour
 
         return newMovingObjectUI;
     }
+
+    public void RemoveMovingObject(BattleObject caller)
+    {
+        if (_movingObjectUIs.TryGetValue(caller, out MovingObjectUI movingObjectUI))
+        {
+            Destroy(movingObjectUI.gameObject);
+            _movingObjectUIs.Remove(caller);
+        }
+    }
 }
