@@ -5,15 +5,16 @@ using UnityEngine;
 
 public class BattleObject : MonoBehaviour
 {
-    [SerializeField] private float startingHealth;
+    [SerializeField] private int startingHealth;
     [SerializeField] private MovingObjectUI movingObjectUIPrefabOverride;
     [SerializeField] private Vector2 size;
+    [SerializeField] private bool isEnemy;
 
-    public float Health => _health;
+    public int Health => _health;
     // todo: have robot pathfinding use this size
     public Vector2 Size => size;
 
-    private float _health;
+    private int _health;
     private MovingObjectUI _movingObjectUI;
 
     protected virtual void Awake()
@@ -27,7 +28,6 @@ public class BattleObject : MonoBehaviour
 
     public virtual void Step()
     {
-        
     }
 
     public virtual void Die()
@@ -52,9 +52,9 @@ public class BattleObject : MonoBehaviour
         SetPosition(newPosition);
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
-        _health = Util.LosePrecision(_health -= damage);
+        _health -= damage;
         if (_movingObjectUI != null)
         {
             _movingObjectUI.SetHealth(_health, startingHealth);

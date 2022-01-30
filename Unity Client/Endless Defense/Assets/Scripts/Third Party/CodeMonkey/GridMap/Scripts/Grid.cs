@@ -90,7 +90,7 @@ public class Grid<TGridObject> {
         return new Vector3(worldPosition.x + offsetForCenter, worldPosition.y + offsetForCenter);
     }
 
-    private void GetXY(Vector3 worldPosition, out int x, out int y) {
+    public void GetXY(Vector3 worldPosition, out int x, out int y) {
         x = Mathf.FloorToInt((worldPosition - originPosition).x / cellSize);
         y = Mathf.FloorToInt((worldPosition - originPosition).y / cellSize);
     }
@@ -133,15 +133,19 @@ public class Grid<TGridObject> {
         return xValid && yValid;
     }
 
-    public Point GetClampedOffset(Point start, Point direction)
+    public (int, int)[] GetTilesFromAnotherTileSize((int x, int y) gridPosition, float otherCellSize)
     {
-        int movedX = start.X + direction.X;
-        int movedY = start.Y + direction.Y;
-        
-        movedX = Util.Clamp(movedX, 0, width - 1);
-        movedY = Util.Clamp(movedY, 0, height - 1);
-        
-        Point moved = new Point(movedX, movedY);
-        return moved;
+        // If their grid is twice as large, the difference is 2
+        int difference = (int)Mathf.Ceil(otherCellSize / cellSize);
+        (int, int)[] tiles = new (int, int)[difference * difference];
+        for (int i = 0; i < difference; i++)
+        {
+            for (int j = 0; j < difference; j++)
+            {
+                tiles[i * difference + j] = (gridPosition.x * difference + i, gridPosition.y * difference + j);
+            }
+        }
+
+        return tiles;
     }
 }

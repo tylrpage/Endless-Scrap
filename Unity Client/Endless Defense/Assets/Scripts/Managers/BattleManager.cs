@@ -68,10 +68,14 @@ public class BattleManager : MonoBehaviour
 
     private void StepAll()
     {
-        Debug.Log("Stepping");
+        //Debug.Log("Stepping");
         foreach (var battleObject in _battleObjects)
         {
-            battleObject.Step();
+            // Step alive battle objects
+            if (battleObject.Health > 0)
+            {
+                battleObject.Step();
+            }
         }
     }
 }

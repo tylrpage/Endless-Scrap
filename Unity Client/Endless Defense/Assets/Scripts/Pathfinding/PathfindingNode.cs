@@ -24,6 +24,14 @@ namespace Pathfinding
             return Mathf.Abs(dx) == 1 && Mathf.Abs(dy) == 1;
         }
     }
+
+    public class EnemiesNode : Node<HashSet<BattleObject>>
+    {
+        public EnemiesNode(int x, int y) : base(x, y)
+        {
+            Data = new HashSet<BattleObject>();
+        }
+    }
     
     public class PathfindingNode : Node<PathfindingNode>
     {

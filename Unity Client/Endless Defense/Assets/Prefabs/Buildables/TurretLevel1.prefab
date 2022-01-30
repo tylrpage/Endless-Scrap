@@ -97,10 +97,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 10
+  movingObjectUIPrefabOverride: {fileID: 0}
+  size: {x: 1, y: 1}
+  isEnemy: 0
   cost:
     Scrap: 10
-  size: {x: 1, y: 1}
   gridIndicator: {fileID: 8110046912916915122}
+  damage: 1
+  range: 2
 --- !u!1001 &7472980798254725805
 PrefabInstance:
   m_ObjectHideFlags: 0
