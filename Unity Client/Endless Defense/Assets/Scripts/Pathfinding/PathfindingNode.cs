@@ -16,6 +16,13 @@ namespace Pathfinding
             this.X = x;
             this.Y = y;
         }
+        
+        public bool IsDirectlyDiagonal(int otherX, int otherY)
+        {
+            int dx = otherX - X;
+            int dy = otherY - Y;
+            return Mathf.Abs(dx) == 1 && Mathf.Abs(dy) == 1;
+        }
     }
     
     public class PathfindingNode : Node<PathfindingNode>

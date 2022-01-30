@@ -15,6 +15,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey.Utils;
+using Pathfinding;
 
 public class Grid<TGridObject> {
 
@@ -125,4 +126,22 @@ public class Grid<TGridObject> {
         return GetGridObject(x, y);
     }
 
+    public bool IsValidPosition(int x, int y)
+    {
+        bool xValid = x >= 0 && x < width;
+        bool yValid = y >= 0 && y < height;
+        return xValid && yValid;
+    }
+
+    public Point GetClampedOffset(Point start, Point direction)
+    {
+        int movedX = start.X + direction.X;
+        int movedY = start.Y + direction.Y;
+        
+        movedX = Util.Clamp(movedX, 0, width - 1);
+        movedY = Util.Clamp(movedY, 0, height - 1);
+        
+        Point moved = new Point(movedX, movedY);
+        return moved;
+    }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Pathfinding;
 using UnityEngine;
 
@@ -33,13 +34,38 @@ public class RobotoLevel1 : BattleObject
     
     public override void Step()
     {
-        if (_path != null && _path.Current != null)
+        // To step we need a path, we need to know where we currently are, and somewhere we are going
+        if (_path != null && _path.Current != null && _path.Current.PathNextPathfindingNode != null)
         {
             var obstacleGrid = GameManager.Instance.BuildManager.BuildablesGrid;
-            if (Pathfinding.Pathfinding.IsPathBlocked(_grid, obstacleGrid, _path, out Node<Buildable> obstacleNode))
+            
+            // The grid we are in according to our world position, this can vary from the path
+            // for example when we are attaking something diagonal from us and need to move up or to the side
+            PathfindingNode worldPositionNode = _grid.GetGridObject(transform.position);
+            Point actualGridPosition = new Point(worldPositionNode.X, worldPositionNode.Y);
+            
+            Point destinationGridPosition = new Point(_path.Current.PathNextPathfindingNode.X, _path.Current.PathNextPathfindingNode.Y);
+            if (Pathfinding.Pathfinding.IsPathBlocked(_grid, obstacleGrid, actualGridPosition, destinationGridPosition, out Node<Buildable> obstacleNode, out bool directlyDiagonal))
             {
-                // Path is blocked, attacking what is blocking you
-                obstacleNode.Data.TakeDamage(damage);
+                if (directlyDiagonal)
+                {
+                    var moveHorizontal = (_path.Current.X + 1, _path.Current.Y);
+                    var moveVertical = (_path.Current.X, _path.Current.Y + 1);
+                    List<(int, int)> newGridPositionOptions = new List<(int, int)>()
+                    {
+                        moveHorizontal, moveVertical
+                    };
+                    // Remove invalid positions (out of bounds)
+                    newGridPositionOptions.Where(x => _grid.IsValidPosition(x.Item1, x.Item2));
+                    int randomInt = GameManager.Instance.RandomManager.NextInt();
+                    var randomChoice = Util.GetRandomElementFromList(newGridPositionOptions, randomInt);
+                    MoveToGridPosition(randomChoice.Item1, randomChoice.Item2);
+                }
+                else
+                {
+                    // Path is blocked by non diagonal thing, attack what is blocking you
+                    obstacleNode.Data.TakeDamage(damage);
+                }
             }
             else
             {
@@ -47,10 +73,15 @@ public class RobotoLevel1 : BattleObject
                 _path.Current = _path.Current.PathNextPathfindingNode;
                 if (_path.Current != null)
                 {
-                    Vector2 nextWorldPosition = _grid.GetWorldPositionOfCenter(_path.Current.X, _path.Current.Y);
-                    transform.position = nextWorldPosition;
+                    MoveToGridPosition(_path.Current.X, _path.Current.Y);
                 }
             }
         }
+    }
+
+    private void MoveToGridPosition(int x, int y)
+    {
+        Vector2 nextWorldPosition = _grid.GetWorldPositionOfCenter(x, y);
+        transform.position = nextWorldPosition;
     }
 }
