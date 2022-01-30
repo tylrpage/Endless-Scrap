@@ -19,7 +19,7 @@ public class TurretLevel1 : Buildable
         GameManager.Instance.GridManager.DrawTiles(GameManager.Instance.BuildManager.BuildablesGrid, _tilesInRange);
     }
 
-    public override void Step()
+    public override void StepAction()
     {
         if (_target != null)
         {

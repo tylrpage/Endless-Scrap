@@ -74,7 +74,7 @@ public class BattleManager : MonoBehaviour
             // Step alive battle objects
             if (battleObject.Health > 0)
             {
-                battleObject.Step();
+                battleObject.OnStep();
             }
         }
     }

@@ -9,6 +9,7 @@ public class BattleObject : MonoBehaviour
     [SerializeField] private MovingObjectUI movingObjectUIPrefabOverride;
     [SerializeField] private Vector2 size;
     [SerializeField] private bool isEnemy;
+    [SerializeField] private int speed;
 
     public int Health => _health;
     // todo: have robot pathfinding use this size
@@ -16,6 +17,7 @@ public class BattleObject : MonoBehaviour
 
     private int _health;
     private MovingObjectUI _movingObjectUI;
+    private int _stepsSinceAction;
 
     protected virtual void Awake()
     {
@@ -26,8 +28,19 @@ public class BattleObject : MonoBehaviour
         _movingObjectUI.SetHealth(_health, startingHealth);
     }
 
-    public virtual void Step()
+    public virtual void StepAction()
     {
+    }
+
+    public void OnStep()
+    {
+        // Check if it is time for this object to step
+        _stepsSinceAction++;
+        if (_stepsSinceAction >= speed)
+        {
+            _stepsSinceAction = 0;
+            StepAction();
+        }
     }
 
     public virtual void Die()

@@ -111,7 +111,7 @@ public class GridManager : MonoBehaviour
         }
         
         // Debugging
-        DrawTiles(grid, newGridIndexes);
+        //DrawTiles(grid, newGridIndexes);
     }
     
     /// <summary>

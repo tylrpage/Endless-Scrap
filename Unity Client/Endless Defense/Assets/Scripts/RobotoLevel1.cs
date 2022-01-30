@@ -11,6 +11,7 @@ public class RobotoLevel1 : BattleObject
     [SerializeField] private AnimationCurve walkCurve;
     // 1 means it takes the full time to get to next step, 2 means it takes half the time
     [SerializeField] private float walkTime;
+    [SerializeField] private RobotAnimationController robotAnimationController;
     
     private Path _path;
     private Grid<PathfindingNode> _pathfindingGrid;
@@ -22,6 +23,7 @@ public class RobotoLevel1 : BattleObject
     private Vector3 _previousTargetPosition;
     private Vector3? _interpStart;
     private float _timeWalking;
+    private bool _isAttacking;
 
     protected override void Awake()
     {
@@ -65,10 +67,15 @@ public class RobotoLevel1 : BattleObject
         {
             float t = walkCurve.Evaluate(_timeWalking * walkTime);
             transform.position = Vector3.Lerp((Vector3)_interpStart, (Vector3)_targetPosition, t);
+            
+            if (!_isAttacking)
+            {
+                robotAnimationController.SetAnimation(RobotAnimationController.AnimationType.walk, _targetPosition - (Vector3)_interpStart);
+            }
         }
     }
 
-    public override void Step()
+    public override void StepAction()
     { 
         // To step we need a path, we need to know where we currently are, and somewhere we are going
         if (_path != null && _path.Current != null && _path.Current.PathNextPathfindingNode != null)
@@ -79,9 +86,10 @@ public class RobotoLevel1 : BattleObject
             // for example when we are attaking something diagonal from us and need to move up or to the side
             Point gridPositionPoint = new Point(_gridPosition.Item1, _gridPosition.Item2);
             
-            Point destinationGridPosition = new Point(_path.Current.PathNextPathfindingNode.X, _path.Current.PathNextPathfindingNode.Y);
-            if (Pathfinding.Pathfinding.IsPathBlocked(_pathfindingGrid, obstacleGrid, gridPositionPoint, destinationGridPosition, out Node<Buildable> obstacleNode, out bool directlyDiagonal))
+            Point destinationTilePosition = new Point(_path.Current.PathNextPathfindingNode.X, _path.Current.PathNextPathfindingNode.Y);
+            if (Pathfinding.Pathfinding.IsPathBlocked(_pathfindingGrid, obstacleGrid, gridPositionPoint, destinationTilePosition, out Node<Buildable> obstacleNode, out var blockDirection))
             {
+                bool directlyDiagonal = blockDirection.x != 0 && blockDirection.y != 0;
                 if (directlyDiagonal)
                 {
                     var moveHorizontal = (_path.Current.X + 1, _path.Current.Y);
@@ -100,6 +108,10 @@ public class RobotoLevel1 : BattleObject
                 {
                     // Path is blocked by non diagonal thing, attack what is blocking you
                     obstacleNode.Data.TakeDamage(damage);
+                    _isAttacking = true;
+                    //Vector3 attackDirection = new Vector3(destinationTilePosition.X - gridPositionPoint.X, destinationTilePosition.Y - gridPositionPoint.Y);
+                    Vector3 attackDirection = new Vector3(blockDirection.x, blockDirection.y);
+                    robotAnimationController.SetAnimation(RobotAnimationController.AnimationType.hit2, attackDirection);
                 }
             }
             else
@@ -122,6 +134,7 @@ public class RobotoLevel1 : BattleObject
         _previousTargetPosition = _targetPosition;
         _targetPosition = nextWorldPosition;
         _timeWalking = 0;
+        _isAttacking = false;
         
         GameManager.Instance.GridManager.MoveEnemyOnGrid(_enemyGrid, this, _previousTargetPosition, _targetPosition);
     }

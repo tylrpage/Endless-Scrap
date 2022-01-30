@@ -62,7 +62,7 @@ namespace Pathfinding
             return path;
         }
 
-        public static bool IsPathBlocked(Grid<PathfindingNode> pathGrid, Grid<Node<Buildable>> obstaclesGrid, Point position, Point destination, out Node<Buildable> blockingObstacleNode, out bool directlyDiagonal)
+        public static bool IsPathBlocked(Grid<PathfindingNode> pathGrid, Grid<Node<Buildable>> obstaclesGrid, Point position, Point destination, out Node<Buildable> blockingObstacleNode, out (int x, int y) blockDirection)
         {
             int dx = destination.X - position.X;
             int dy = destination.Y - position.Y;
@@ -75,7 +75,7 @@ namespace Pathfinding
                 if (buildableNode.Data != null)
                 {
                     blockingObstacleNode = buildableNode;
-                    directlyDiagonal = false;
+                    blockDirection = (dx, 0);
                     return true;
                 }
             }
@@ -87,7 +87,7 @@ namespace Pathfinding
                 if (buildableNode.Data != null)
                 {
                     blockingObstacleNode = buildableNode;
-                    directlyDiagonal = false;
+                    blockDirection = (0, dy);
                     return true;
                 }
             }
@@ -99,14 +99,14 @@ namespace Pathfinding
                 if (buildableNode.Data != null)
                 {
                     blockingObstacleNode = buildableNode;
-                    directlyDiagonal = true;
+                    blockDirection = (dx, dy);
                     return true;
                 }
             }
             
             // If we got to this point, there is no obstacle
             blockingObstacleNode = null;
-            directlyDiagonal = false;
+            blockDirection = (0, 0);
             return false;
         }
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TurretLevel2 : Buildable
 {
-    public override void Step()
+    public override void StepAction()
     {
         
     }
