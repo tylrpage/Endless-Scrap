@@ -13,6 +13,8 @@ public class BattleManager : MonoBehaviour
     private bool _playing = false;
     private float _lastStepTime;
 
+    public float SecondsPerStep => Util.LosePrecision(1f / stepsPerSecond);
+
     private void Update()
     {
         if (_playing)
