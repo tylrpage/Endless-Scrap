@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public RandomManager RandomManager;
     public MovingObjectUIManager MovingObjectUIManager;
     public HordeManager HordeManager;
+    public MusicManager MusicManager;
     
     private static GameManager _instance;
     public static GameManager Instance => _instance;

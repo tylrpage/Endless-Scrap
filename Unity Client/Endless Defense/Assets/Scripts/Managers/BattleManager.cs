@@ -24,6 +24,7 @@ public class BattleManager : MonoBehaviour
         _battleObjects = new List<BattleObject>();
         GameManager.Instance.BuildManager.EnableBuilding();
         WaterSupply.WaterSupplyDied += WaterSupplyOnWaterSupplyDied;
+        GameManager.Instance.MusicManager.PlayBuildMusic();
     }
 
     private void WaterSupplyOnWaterSupplyDied()
@@ -80,6 +81,7 @@ public class BattleManager : MonoBehaviour
         GameManager.Instance.BuildManager.DisableBuilding();
         _lastStepTime = Time.time;
         _playing = true;
+        GameManager.Instance.MusicManager.PlayBattleMusic();
     }
 
     public void AddBattleObject(BattleObject battleObject)
@@ -112,6 +114,7 @@ public class BattleManager : MonoBehaviour
     {
         waterSupply.ResetHealth();
         rebuildPanel.SetActive(false);
+        GameManager.Instance.MusicManager.PlayBuildMusic();
         
         GameManager.Instance.BuildManager.EnableBuilding();
         Vector3 scrapCounterWorldPosition = scrapCounter.transform.position;

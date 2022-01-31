@@ -15,6 +15,7 @@ public class RobotoLevel1 : BattleObject
     [SerializeField] private RobotAnimationController robotAnimationController;
     [SerializeField] private GameObject deathScrap;
     [SerializeField] private AnimationCurve deathScrapCurve;
+    [SerializeField] private List<AudioClip> deathSounds;
     
     private Path _path;
 
@@ -49,6 +50,10 @@ public class RobotoLevel1 : BattleObject
             GameManager.Instance.GridManager.RemoveEnemyFromGrid(_enemyGrid, this, transform.position);
             GameManager.Instance.GridManager.DeadRobots.Add(this);
             GameManager.Instance.GridManager.EnemyRobots.Remove(this);
+
+            var randomDeathSound =
+                Util.GetRandomElementFromList(deathSounds, GameManager.Instance.RandomManager.NextInt());
+            GameManager.Instance.MusicManager.PlayOneShot(randomDeathSound);
 
             StartCoroutine(SpawnScrapAfterTime());
         }

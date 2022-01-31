@@ -102,10 +102,11 @@ public class BuildManager : MonoBehaviour
     [SerializeField] private Transform buildingContainer;
     [SerializeField] private float gridsPerUnit;
     [SerializeField] private RectTransform buildButtonsContainer;
+    [SerializeField] private AudioClip placeBuildingSound;
     
     private Currencies _currencies = new Currencies()
     {
-        Scrap = 50
+        Scrap = 30
     };
     private Buildable _selectedBuilding;
     private Camera _camera;
@@ -121,7 +122,7 @@ public class BuildManager : MonoBehaviour
         buildingIndicator.SetActive(false);
         _camera = Camera.main;
 
-        InitializeGrid(11, 11, 1);
+        InitializeGrid(21, 21, 1);
     }
 
     public void InitializeGrid(int width, int height, float cellSize)
@@ -356,7 +357,8 @@ public class BuildManager : MonoBehaviour
                         // Debit the currencies
                         _currencies = _currencies - cost;
                         UpdateCurrencies();
-                        ClearSelection();
+                        ClearSelection(false);
+                        GameManager.Instance.MusicManager.PlayOneShot(placeBuildingSound);
                     }
                     else
                     {
@@ -379,11 +381,15 @@ public class BuildManager : MonoBehaviour
         }
     }
 
-    private void ClearSelection()
+    private void ClearSelection(bool clearSelection = true)
     {
+        if (clearSelection)
+        {
+            _selectedBuilding = null;
+            buildingIndicator.SetActive(false);
+        }
         dragBeginSnappedPosition = null;
-        buildingIndicator.SetActive(false);
-        _selectedBuilding = null;
+        
         buildingIndicator.Clear();
         
         foreach (var building in _previouslyOverlappedBuildings)

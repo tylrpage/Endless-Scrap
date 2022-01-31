@@ -32,6 +32,7 @@ public class CameraControls : MonoBehaviour
             {
                 Vector2 difference = mouseToWorldPoint - _previousMousePosition;
                 _camera.transform.position -= (Vector3)difference;
+                _camera.transform.position = new Vector3(Mathf.Clamp(_camera.transform.position.x, -3f, 3f), Mathf.Clamp(_camera.transform.position.y, -3f, 3f), -10f);
                 // Recalc world point since the camera moved
                 mouseToWorldPoint = _camera.ScreenToWorldPoint(Input.mousePosition);
             }

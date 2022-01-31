@@ -238,6 +238,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  deathSounds:
+  - {fileID: 8300000, guid: 71bfae24107ffc84398e604294b48103, type: 3}
+  - {fileID: 8300000, guid: 5ea79103037b1f341b486bd4acafbb8d, type: 3}
 --- !u!95 &2052597160
 Animator:
   serializedVersion: 3
