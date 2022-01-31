@@ -103,7 +103,7 @@ public class BuildManager : MonoBehaviour
     [SerializeField] private float gridsPerUnit;
     [SerializeField] private RectTransform buildButtonsContainer;
     [SerializeField] private AudioClip placeBuildingSound;
-    
+
     private Currencies _currencies = new Currencies()
     {
         Scrap = 30
@@ -438,6 +438,12 @@ public class BuildManager : MonoBehaviour
     public void AddScrap(int scrap)
     {
         _currencies.Scrap += scrap;
+        UpdateCurrencies();
+    }
+
+    public void RemoveAllScrap()
+    {
+        _currencies.Scrap = 0;
         UpdateCurrencies();
     }
 }

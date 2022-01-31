@@ -11,6 +11,8 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private RectTransform scrapCounter;
     [SerializeField] private GameObject rebuildPanel;
     [SerializeField] private WaterSupply waterSupply;
+    [SerializeField] private GameObject submitScoreButton;
+    [SerializeField] private GameObject playButton;
     
     private List<BattleObject> _battleObjects;
     private bool _playing = false;
@@ -21,6 +23,7 @@ public class BattleManager : MonoBehaviour
 
     private void Awake()
     {
+        submitScoreButton.SetActive(false);
         _battleObjects = new List<BattleObject>();
         GameManager.Instance.BuildManager.EnableBuilding();
         WaterSupply.WaterSupplyDied += WaterSupplyOnWaterSupplyDied;
@@ -78,6 +81,8 @@ public class BattleManager : MonoBehaviour
 
     public void StartBattle()
     {
+        submitScoreButton.SetActive(false);
+        playButton.SetActive(false);
         GameManager.Instance.BuildManager.DisableBuilding();
         _lastStepTime = Time.time;
         _playing = true;
@@ -112,6 +117,8 @@ public class BattleManager : MonoBehaviour
 
     public void EndBattle()
     {
+        playButton.SetActive(true);
+        submitScoreButton.SetActive(true);
         waterSupply.ResetHealth();
         rebuildPanel.SetActive(false);
         GameManager.Instance.MusicManager.PlayBuildMusic();

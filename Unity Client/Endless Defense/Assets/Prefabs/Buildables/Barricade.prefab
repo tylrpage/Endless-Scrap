@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c403e8705011ba4aa71478fa6727891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 8
+  startingHealth: 20
   movingObjectUIPrefabOverride: {fileID: 0}
   size: {x: 1, y: 1}
   isEnemy: 0

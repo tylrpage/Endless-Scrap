@@ -59,7 +59,11 @@ public class TurretLevel1 : Buildable
                 if (enemiesNode.Data.Count > 0)
                 {
                     // nulls can get into the hash set of enemies...somehow
-                    return enemiesNode.Data.FirstOrDefault(x => x != null && x.Health > 0);
+                    var suitableTarget = enemiesNode.Data.FirstOrDefault(x => x != null && x.Health > 0);
+                    if (suitableTarget != null)
+                    {
+                        return suitableTarget;
+                    }
                 }
             }
         }

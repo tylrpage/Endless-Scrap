@@ -59,6 +59,7 @@
     </explicitIncludes>
     <explicitExcludes>
       <Path>.idea</Path>
+      <Path>Dist</Path>
       <Path>Library</Path>
       <Path>Logs</Path>
       <Path>Temp</Path>

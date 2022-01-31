@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public MovingObjectUIManager MovingObjectUIManager;
     public HordeManager HordeManager;
     public MusicManager MusicManager;
+    public FirebaseManager FirebaseManager;
     
     private static GameManager _instance;
     public static GameManager Instance => _instance;
