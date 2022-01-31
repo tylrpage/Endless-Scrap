@@ -15,6 +15,8 @@ public class BattleObject : MonoBehaviour
     // todo: have robot pathfinding use this size
     public Vector2 Size => size;
 
+    public MovingObjectUI MovingObjectUI => _movingObjectUI;
+
     private int _health;
     private MovingObjectUI _movingObjectUI;
     private int _stepsSinceAction;
@@ -23,7 +25,7 @@ public class BattleObject : MonoBehaviour
     {
         _health = startingHealth;
         
-        Vector3 offset = Vector3.up * (size.y / 2);
+        Vector3 offset = Vector3.up * size.y;
         _movingObjectUI = GameManager.Instance.MovingObjectUIManager.CreateMovingObject(this, movingObjectUIPrefabOverride, offset, size.x);
         _movingObjectUI.SetHealth(_health, startingHealth);
         

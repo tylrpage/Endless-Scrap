@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2111098836703043046}
   - component: {fileID: 7212545626024155513}
-  - component: {fileID: 1524869274803624297}
+  - component: {fileID: 7715153852216189383}
   m_Layer: 0
   m_Name: WaterTower
   m_TagString: Untagged
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 731290ce529569c4b9507832e4447e80, type: 3}
+  m_Sprite: {fileID: 6948480670881761016, guid: bc548db61c8b28a479ae6a1e52def678, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1524869274803624297
+--- !u!114 &7715153852216189383
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,15 +93,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 2659059175858804493}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f92cafba01f111f4f95fd67e27969dad, type: 3}
+  m_Script: {fileID: 11500000, guid: 60da5a34edb9b1548a47490ec55c2c24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 50
-  movingObjectUIPrefab: {fileID: 9072812824808166767, guid: 374e9783d2dff4541b48e26363af9e40, type: 3}
+  movingObjectUIPrefabOverride: {fileID: 3580149120457885706, guid: 19b61afdc70fe904e9066c61aff0354b, type: 3}
+  size: {x: 3, y: 3}
+  isEnemy: 0
+  speed: 1
   cost:
     Scrap: 0
-  size: {x: 3, y: 3}
   gridIndicator: {fileID: 243463353754842245}
+  waterSupplySprites: []
 --- !u!1001 &1466207976212843930
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -112,6 +115,10 @@ PrefabInstance:
     - target: {fileID: 696881439928662611, guid: b8ca326375e58954e9047b9fa487be34, type: 3}
       propertyPath: m_Name
       value: GridIndicator
+      objectReference: {fileID: 0}
+    - target: {fileID: 696881439928662611, guid: b8ca326375e58954e9047b9fa487be34, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7199331832834220608, guid: b8ca326375e58954e9047b9fa487be34, type: 3}
       propertyPath: m_RootOrder

@@ -100,7 +100,7 @@ MonoBehaviour:
   startingHealth: 4
   movingObjectUIPrefabOverride: {fileID: 0}
   size: {x: 0.5, y: 0.5}
-  isEnemy: 0
+  isEnemy: 1
   speed: 2
   damage: 1
   walkCurve:

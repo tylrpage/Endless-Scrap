@@ -131,7 +131,7 @@ public class BuildManager : MonoBehaviour
         foreach (var gridIndex in gridIndexes)
         {
             // Ignore if out of bounds
-            if (gridIndex.x >= _gridSize.Item1 || gridIndex.y >= _gridSize.Item2)
+            if (!_buildablesGrid.IsValidPosition(gridIndex.x, gridIndex.y))
             {
                 continue;
             }

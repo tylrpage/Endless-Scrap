@@ -9,12 +9,9 @@ public class GridManager : MonoBehaviour
 {
     [SerializeField] private MeshFilter debugGridMesh;
 
-    public Grid<PathfindingNode> SmallEnemyPathfindingGrid => _smallEnemyPathfindingGrid;
-
     public Grid<EnemiesNode> EnemyGrid => _enemyGrid;
 
     private Mesh _mesh;
-    private Grid<PathfindingNode> _smallEnemyPathfindingGrid;
     private Grid<EnemiesNode> _enemyGrid;
 
     private void Awake()
@@ -25,7 +22,6 @@ public class GridManager : MonoBehaviour
         int gridWidth = (GameManager.Instance.BuildManager.GridSize.Item1 + 10) * (int)(1f / cellSize);
         int gridHeight = (GameManager.Instance.BuildManager.GridSize.Item2 + 10) * (int)(1f / cellSize);
         Vector2 centeredPosition = new Vector2(-gridWidth / 2f * cellSize, -gridHeight / 2f * cellSize);
-        _smallEnemyPathfindingGrid = new Grid<PathfindingNode>(gridWidth, gridHeight, cellSize, centeredPosition, (grid, x, y) => new PathfindingNode(x, y));
         _enemyGrid = new Grid<EnemiesNode>(gridWidth, gridHeight, cellSize, centeredPosition, (grid, x, y) => new EnemiesNode(x, y));
         
         // Test it

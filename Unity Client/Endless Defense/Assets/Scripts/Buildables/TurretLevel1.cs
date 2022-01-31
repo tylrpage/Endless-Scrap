@@ -36,8 +36,7 @@ public class TurretLevel1 : Buildable
     {
         foreach (var tileInRange in _tilesInRange)
         {
-            float cellSize = GameManager.Instance.BuildManager.BuildablesGrid.GetCellSize();
-            var tiles = GameManager.Instance.GridManager.SmallEnemyPathfindingGrid.GetTilesFromAnotherTileSize(tileInRange, cellSize);
+            var tiles = GameManager.Instance.GridManager.EnemyGrid.GetTilesFromAnotherGrid(GameManager.Instance.BuildManager.BuildablesGrid, tileInRange);
             foreach (var tile in tiles)
             {
                 var enemiesNode = GameManager.Instance.GridManager.EnemyGrid.GetGridObject(tile.Item1, tile.Item2);
@@ -67,7 +66,6 @@ public class TurretLevel1 : Buildable
                     gridPosition.Item2);
             // Check the position
             float distance = Mathf.Abs((positionOnGrid - worldPosition).magnitude);
-            checkedPositions.Add(gridPosition);
             if (distance <= range)
             {
                 tilePositionsInRange.Add(gridPosition);
@@ -83,6 +81,7 @@ public class TurretLevel1 : Buildable
                         // Only add positions that are valid in the grid and we havent checked before
                         if (isValidPositionOnGrid && !checkedPositions.Contains(newPosition))
                         {
+                            checkedPositions.Add(newPosition);
                             tilePositionsToCheck.Enqueue(newPosition);
                         }
                     }

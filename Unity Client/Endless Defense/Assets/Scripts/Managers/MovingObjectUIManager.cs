@@ -30,7 +30,6 @@ public class MovingObjectUIManager : MonoBehaviour
         MovingObjectUI newMovingObjectUI = Instantiate(movingObjectUI, position, Quaternion.identity, worldSpaceCanvases);
         newMovingObjectUI.SetTarget(caller, offset);
         RectTransform rectTransform = newMovingObjectUI.GetComponent<RectTransform>();
-        //newMovingObjectUI.transform.localScale *= sizeMult;
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x * sizeMult, rectTransform.sizeDelta.y);
         _movingObjectUIs[caller] = newMovingObjectUI;
 

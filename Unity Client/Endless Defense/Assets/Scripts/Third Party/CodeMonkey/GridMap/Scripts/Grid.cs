@@ -133,8 +133,14 @@ public class Grid<TGridObject> {
         return xValid && yValid;
     }
 
-    public (int, int)[] GetTilesFromAnotherTileSize((int x, int y) gridPosition, float otherCellSize)
+    public (int, int)[] GetTilesFromAnotherGrid<T>(Grid<T> grid, (int x, int y) gridPosition)
     {
+        float otherCellSize = grid.GetCellSize();
+        
+        // convert position
+        Vector3 otherGridWorldPosition = grid.GetWorldPosition(gridPosition.x, gridPosition.y);
+        GetXY(otherGridWorldPosition, out int x, out int y);
+        
         // If their grid is twice as large, the difference is 2
         int difference = (int)Mathf.Ceil(otherCellSize / cellSize);
         (int, int)[] tiles = new (int, int)[difference * difference];
@@ -142,7 +148,7 @@ public class Grid<TGridObject> {
         {
             for (int j = 0; j < difference; j++)
             {
-                tiles[i * difference + j] = (gridPosition.x * difference + i, gridPosition.y * difference + j);
+                tiles[i * difference + j] = (x + i, y + j);
             }
         }
 
