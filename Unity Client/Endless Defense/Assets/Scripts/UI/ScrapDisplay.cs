@@ -11,6 +11,7 @@ public class ScrapDisplay : MonoBehaviour
     private void Awake()
     {
         BuildManager.CurrenciesUpdated += OnCurrenciesUpdated;
+        OnCurrenciesUpdated(GameManager.Instance.BuildManager.CurrenciesAmount);
     }
 
     private void OnCurrenciesUpdated(BuildManager.Currencies currencies)

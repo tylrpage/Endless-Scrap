@@ -10,8 +10,12 @@ public class BattleObject : MonoBehaviour
     [SerializeField] private Vector2 size;
     [SerializeField] private bool isEnemy;
     [SerializeField] private int speed;
+    [SerializeField] private float timeFromDeathToDestroy;
 
     public int Health => _health;
+
+    public int StartingHealth => startingHealth;
+
     // todo: have robot pathfinding use this size
     public Vector2 Size => size;
 
@@ -40,7 +44,7 @@ public class BattleObject : MonoBehaviour
     {
         // Check if it is time for this object to step
         _stepsSinceAction++;
-        if (_stepsSinceAction >= speed)
+        if (_stepsSinceAction >= speed && _health > 0)
         {
             _stepsSinceAction = 0;
             StepAction();
@@ -49,8 +53,19 @@ public class BattleObject : MonoBehaviour
 
     public virtual void Die()
     {
-        Destroy(gameObject);
+        StartCoroutine(WaitToCleanup());
+    }
+
+    private IEnumerator WaitToCleanup()
+    {
+        yield return new WaitForSeconds(timeFromDeathToDestroy);
+        CleanUp();
+    }
+
+    public void CleanUp()
+    {
         GameManager.Instance.MovingObjectUIManager.RemoveMovingObject(this);
+        Destroy(gameObject);
     }
 
     public Vector2 GetGridPosition()
@@ -81,5 +96,11 @@ public class BattleObject : MonoBehaviour
         {
             Die();
         }
+    }
+
+    public virtual void ResetHealth()
+    {
+        _health = startingHealth;
+        _movingObjectUI.SetHealth(_health, startingHealth);
     }
 }

@@ -51,7 +51,7 @@ public class RobotAnimationController : MonoBehaviour
         return $"{animationType}_{directionType}";
     }
 
-    private void ChangeAnimationState(string newState)
+    public void ChangeAnimationState(string newState)
     {
         if (newState == _currentState)
         {

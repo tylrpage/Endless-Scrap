@@ -7,16 +7,19 @@ public class TurretLevel1 : Buildable
 {
     [SerializeField] private int damage;
     [SerializeField] private int range;
+    [SerializeField] private Animator animator;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     private List<(int, int)> _tilesInRange;
     private BattleObject _target;
+    private string _currentAnimationState;
 
     protected override void Awake()
     {
         base.Awake();
 
         _tilesInRange = GetTilesInRange(range);
-        GameManager.Instance.GridManager.DrawTiles(GameManager.Instance.BuildManager.BuildablesGrid, _tilesInRange);
+        //GameManager.Instance.GridManager.DrawTiles(GameManager.Instance.BuildManager.BuildablesGrid, _tilesInRange);
     }
 
     public override void StepAction()
@@ -25,10 +28,23 @@ public class TurretLevel1 : Buildable
         {
             // Shoot the target
             _target.TakeDamage(damage);
+            // Look at the target
+            Vector3 direction = _target.transform.position - transform.position;
+            if (Mathf.Abs(direction.x) >= Mathf.Abs(direction.y))
+            {
+                ChangeAnimationState("turret1_right");
+                spriteRenderer.flipX = direction.x < 0;
+            }
+            else
+            {
+                ChangeAnimationState("turret1_up");
+                spriteRenderer.flipX = direction.y < 0;
+            }
         }
         else
         {
             _target = FindNearestEnemyInRange();
+            ChangeAnimationState("turret1_idle");
         }
     }
 
@@ -42,7 +58,8 @@ public class TurretLevel1 : Buildable
                 var enemiesNode = GameManager.Instance.GridManager.EnemyGrid.GetGridObject(tile.Item1, tile.Item2);
                 if (enemiesNode.Data.Count > 0)
                 {
-                    return enemiesNode.Data.First();
+                    // nulls can get into the hash set of enemies...somehow
+                    return enemiesNode.Data.FirstOrDefault(x => x != null);
                 }
             }
         }
@@ -90,5 +107,16 @@ public class TurretLevel1 : Buildable
         }
 
         return tilePositionsInRange;
+    }
+    
+    private void ChangeAnimationState(string newState)
+    {
+        if (newState == _currentAnimationState)
+        {
+            return;
+        }
+        
+        animator.Play(newState);
+        _currentAnimationState = newState;
     }
 }

@@ -92,6 +92,96 @@ TextureImporter:
   - first:
       213: -2009305485895241163
     second: wood_barrier_29
+  - first:
+      213: 1566267960159620621
+    second: world_wood_barrier_0
+  - first:
+      213: 1743656594746031145
+    second: world_wood_barrier_1
+  - first:
+      213: -5083022235654719580
+    second: world_wood_barrier_2
+  - first:
+      213: 7877116692575237315
+    second: world_wood_barrier_3
+  - first:
+      213: 2492941488297518349
+    second: world_wood_barrier_4
+  - first:
+      213: -7881244640161254457
+    second: world_wood_barrier_5
+  - first:
+      213: -3044620943434100656
+    second: world_wood_barrier_6
+  - first:
+      213: 1674153143032010132
+    second: world_wood_barrier_7
+  - first:
+      213: -3475400454701787072
+    second: world_wood_barrier_8
+  - first:
+      213: 245215321837175887
+    second: world_wood_barrier_9
+  - first:
+      213: -5861191445409892314
+    second: world_wood_barrier_10
+  - first:
+      213: 1227864534930789563
+    second: world_wood_barrier_11
+  - first:
+      213: -7270782452738449296
+    second: world_wood_barrier_12
+  - first:
+      213: 8904248454958226596
+    second: world_wood_barrier_13
+  - first:
+      213: 8212016387780842878
+    second: world_wood_barrier_14
+  - first:
+      213: 2336389795514217033
+    second: world_wood_barrier_15
+  - first:
+      213: -5827988770362225321
+    second: world_wood_barrier_16
+  - first:
+      213: -7909167409324086059
+    second: world_wood_barrier_17
+  - first:
+      213: -3061472704363743536
+    second: world_wood_barrier_18
+  - first:
+      213: 2793907594506896916
+    second: world_wood_barrier_19
+  - first:
+      213: -5487143082739268116
+    second: world_wood_barrier_20
+  - first:
+      213: -1483340370916638130
+    second: world_wood_barrier_21
+  - first:
+      213: 8917180894718564683
+    second: world_wood_barrier_22
+  - first:
+      213: 326055197731063596
+    second: world_wood_barrier_23
+  - first:
+      213: -5949813651250906055
+    second: world_wood_barrier_24
+  - first:
+      213: 3229312818619634638
+    second: world_wood_barrier_25
+  - first:
+      213: -5613631574654329416
+    second: world_wood_barrier_26
+  - first:
+      213: -502658395646165328
+    second: world_wood_barrier_27
+  - first:
+      213: -8309215672394741441
+    second: world_wood_barrier_28
+  - first:
+      213: -3848233545838979138
+    second: world_wood_barrier_29
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -113,6 +203,7 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -121,9 +212,9 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
-    aniso: -1
-    mipBias: -100
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -135,7 +226,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 130
+  spritePixelsToUnits: 160
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
@@ -144,9 +235,12 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 0
   platformSettings:
   - serializedVersion: 3
@@ -197,635 +291,647 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 80
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: wood_barrier_0
+      name: world_wood_barrier_0
       rect:
         serializedVersion: 2
         x: 0
         y: 363
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8650449a7031797d0800000000000000
-      internalID: -2911837710446230168
+      spriteID: d0ec36c49608cb510800000000000000
+      internalID: 1566267960159620621
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_1
+      name: world_wood_barrier_1
       rect:
         serializedVersion: 2
         x: 190
         y: 363
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ce3f878903cdcb470800000000000000
-      internalID: 8411840305295848428
+      spriteID: 92cba144f66b23810800000000000000
+      internalID: 1743656594746031145
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_2
+      name: world_wood_barrier_2
       rect:
         serializedVersion: 2
         x: 380
         y: 363
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eaff2ca950e715ec0800000000000000
-      internalID: -3579941666246426706
+      spriteID: 4a7736a253a7579b0800000000000000
+      internalID: -5083022235654719580
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_3
+      name: world_wood_barrier_3
       rect:
         serializedVersion: 2
         x: 570
         y: 363
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dca563bf6d2093870800000000000000
-      internalID: 8662958480584760013
+      spriteID: 3c43f3ba5e3215d60800000000000000
+      internalID: 7877116692575237315
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_4
+      name: world_wood_barrier_4
       rect:
         serializedVersion: 2
         x: 760
         y: 363
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d61d851afff04720800000000000000
-      internalID: 2828542015557146321
+      spriteID: d05aecf4315b89220800000000000000
+      internalID: 2492941488297518349
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_5
+      name: world_wood_barrier_5
       rect:
         serializedVersion: 2
         x: 950
         y: 363
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cb6c7b2bd17f40220800000000000000
-      internalID: 2451355804120893116
+      spriteID: 7c3bc33a1c130a290800000000000000
+      internalID: -7881244640161254457
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_6
+      name: world_wood_barrier_6
       rect:
         serializedVersion: 2
         x: 1140
         y: 363
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2370acad0a9339620800000000000000
-      internalID: 2779628758045951794
+      spriteID: 05055ee02655fb5d0800000000000000
+      internalID: -3044620943434100656
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_7
+      name: world_wood_barrier_7
       rect:
         serializedVersion: 2
         x: 1330
         y: 363
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8708f3867898981a0800000000000000
-      internalID: -6806758147131211656
+      spriteID: 495d60ed969cb3710800000000000000
+      internalID: 1674153143032010132
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_8
+      name: world_wood_barrier_8
       rect:
         serializedVersion: 2
         x: 1520
         y: 363
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 149ee9ee2caca6370800000000000000
-      internalID: 8316682600468900161
+      spriteID: 048d44d23b5e4cfc0800000000000000
+      internalID: -3475400454701787072
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_9
+      name: world_wood_barrier_9
       rect:
         serializedVersion: 2
         x: 1710
         y: 363
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aba11a99bedcdc460800000000000000
-      internalID: 7263688185796958906
+      spriteID: f448697390e276300800000000000000
+      internalID: 245215321837175887
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_10
+      name: world_wood_barrier_10
       rect:
         serializedVersion: 2
         x: 0
         y: 182
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eae285ccd3eef8300800000000000000
-      internalID: 256685652972154542
+      spriteID: 628f8cf2f6dd8aea0800000000000000
+      internalID: -5861191445409892314
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_11
+      name: world_wood_barrier_11
       rect:
         serializedVersion: 2
         x: 190
         y: 182
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ceff16546cfd05420800000000000000
-      internalID: 2616837426162827244
+      spriteID: bb499dcf9404a0110800000000000000
+      internalID: 1227864534930789563
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_12
+      name: world_wood_barrier_12
       rect:
         serializedVersion: 2
         x: 380
         y: 182
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a265ff60373a6f5f0800000000000000
-      internalID: -723210975712422358
+      spriteID: 070a169a1edf81b90800000000000000
+      internalID: -7270782452738449296
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_13
+      name: world_wood_barrier_13
       rect:
         serializedVersion: 2
         x: 570
         y: 182
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9a0117a9037492f60800000000000000
-      internalID: 8010011686330241193
+      spriteID: 4ac1b950bce329b70800000000000000
+      internalID: 8904248454958226596
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_14
+      name: world_wood_barrier_14
       rect:
         serializedVersion: 2
         x: 760
         y: 182
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5734e53514a92d5e0800000000000000
-      internalID: -1886275688552578187
+      spriteID: e751d534561f6f170800000000000000
+      internalID: 8212016387780842878
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_15
+      name: world_wood_barrier_15
       rect:
         serializedVersion: 2
         x: 950
         y: 182
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3351de2294b87a120800000000000000
-      internalID: 2425060070597137715
+      spriteID: 942f87ae3268c6020800000000000000
+      internalID: 2336389795514217033
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_16
+      name: world_wood_barrier_16
       rect:
         serializedVersion: 2
         x: 1140
         y: 182
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c9be1096e3aec0af0800000000000000
-      internalID: -428710310736434276
+      spriteID: 75d08936713de1fa0800000000000000
+      internalID: -5827988770362225321
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_17
+      name: world_wood_barrier_17
       rect:
         serializedVersion: 2
         x: 1330
         y: 182
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4e401a26f76900f80800000000000000
-      internalID: -8142342652426124060
+      spriteID: 5dc2422552efc3290800000000000000
+      internalID: -7909167409324086059
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_18
+      name: world_wood_barrier_18
       rect:
         serializedVersion: 2
         x: 1520
         y: 182
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9ab115806101e6090800000000000000
-      internalID: -8039470597994898519
+      spriteID: 0d638d6bbc67385d0800000000000000
+      internalID: -3061472704363743536
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_19
+      name: world_wood_barrier_19
       rect:
         serializedVersion: 2
         x: 1710
         y: 182
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 30cbc17400a079b10800000000000000
-      internalID: 1988068756816706563
+      spriteID: 41689d98724f5c620800000000000000
+      internalID: 2793907594506896916
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_20
+      name: world_wood_barrier_20
       rect:
         serializedVersion: 2
         x: 0
         y: 1
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f90f9e33206df2070800000000000000
-      internalID: 8083915161102577823
+      spriteID: ce585993070c9d3b0800000000000000
+      internalID: -5487143082739268116
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_21
+      name: world_wood_barrier_21
       rect:
         serializedVersion: 2
         x: 190
         y: 1
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9fdd3d022ff586090800000000000000
-      internalID: -8041071641132540423
+      spriteID: e42848eaacd1a6be0800000000000000
+      internalID: -1483340370916638130
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_22
+      name: world_wood_barrier_22
       rect:
         serializedVersion: 2
         x: 380
         y: 1
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 713b6c2fc0e8f5ea0800000000000000
-      internalID: -5881826402058718441
+      spriteID: b49999b47c030cb70800000000000000
+      internalID: 8917180894718564683
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_23
+      name: world_wood_barrier_23
       rect:
         serializedVersion: 2
         x: 570
         y: 1
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 010b5b31cbcc5fff0800000000000000
-      internalID: -2871116587225072
+      spriteID: c270eed8971668400800000000000000
+      internalID: 326055197731063596
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_24
+      name: world_wood_barrier_24
       rect:
         serializedVersion: 2
         x: 760
         y: 1
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 820373ff3f3f9a130800000000000000
-      internalID: 3578659608206979112
+      spriteID: 93c7b65f1040e6da0800000000000000
+      internalID: -5949813651250906055
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_25
+      name: world_wood_barrier_25
       rect:
         serializedVersion: 2
         x: 950
         y: 1
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3fdc9ea6b982a84b0800000000000000
-      internalID: -5437488952117703181
+      spriteID: ec3507e16e2d0dc20800000000000000
+      internalID: 3229312818619634638
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_26
+      name: world_wood_barrier_26
       rect:
         serializedVersion: 2
         x: 1140
         y: 1
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0342f8cdc62482200800000000000000
-      internalID: 155447222468551728
+      spriteID: 8bddfcc33df5812b0800000000000000
+      internalID: -5613631574654329416
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_27
+      name: world_wood_barrier_27
       rect:
         serializedVersion: 2
         x: 1330
         y: 1
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 96ac6e2b12b959d20800000000000000
-      internalID: 3284702072274340457
+      spriteID: 0be74243ad23609f0800000000000000
+      internalID: -502658395646165328
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_28
+      name: world_wood_barrier_28
       rect:
         serializedVersion: 2
         x: 1520
         y: 1
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4d04c85e2b9e01900800000000000000
-      internalID: 653278900533346516
+      spriteID: f398dccbe5cbfac80800000000000000
+      internalID: -8309215672394741441
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wood_barrier_29
+      name: world_wood_barrier_29
       rect:
         serializedVersion: 2
         x: 1710
         y: 1
         width: 190
         height: 181
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.45, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 53278fb6e438d14e0800000000000000
-      internalID: -2009305485895241163
+      spriteID: eb796879af3589ac0800000000000000
+      internalID: -3848233545838979138
       vertices: []
       indices: 
       edges: []

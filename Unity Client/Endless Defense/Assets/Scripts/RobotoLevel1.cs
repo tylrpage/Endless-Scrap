@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Pathfinding;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class RobotoLevel1 : BattleObject
 {
@@ -12,6 +13,8 @@ public class RobotoLevel1 : BattleObject
     // 1 means it takes the full time to get to next step, 2 means it takes half the time
     [SerializeField] private float walkTime;
     [SerializeField] private RobotAnimationController robotAnimationController;
+    [SerializeField] private GameObject deathScrap;
+    [SerializeField] private AnimationCurve deathScrapCurve;
     
     private Path _path;
 
@@ -23,6 +26,7 @@ public class RobotoLevel1 : BattleObject
     private Vector3? _interpStart;
     private float _timeWalking;
     private bool _isAttacking;
+    private bool _died;
 
     protected override void Awake()
     {
@@ -30,15 +34,46 @@ public class RobotoLevel1 : BattleObject
 
         _enemyGrid = GameManager.Instance.GridManager.EnemyGrid;
         GameManager.Instance.GridManager.AddEnemyToGrid(_enemyGrid, this, transform.position);
+        GameManager.Instance.GridManager.EnemyRobots.Add(this);
         
         InitializePath(Vector2.zero);
     }
 
     public override void Die()
     {
-        GameManager.Instance.GridManager.RemoveEnemyFromGrid(_enemyGrid, this, transform.position);
-        
-        base.Die();
+        if (!_died)
+        {
+            _died = true;
+            
+            robotAnimationController.ChangeAnimationState("vanish");
+            GameManager.Instance.GridManager.RemoveEnemyFromGrid(_enemyGrid, this, transform.position);
+            GameManager.Instance.GridManager.DeadRobots.Add(this);
+            GameManager.Instance.GridManager.EnemyRobots.Remove(this);
+
+            StartCoroutine(SpawnScrapAfterTime());
+        }
+    }
+
+    public IEnumerator FlyScrap(Vector3 position, Action complete)
+    {
+        float deathScrapT = 0;
+        float randomSpeed = Random.Range(0.8f, 1.2f);
+        while (deathScrapT < 1)
+        {
+            deathScrapT += Time.deltaTime * randomSpeed;
+            float lerpT = deathScrapCurve.Evaluate(deathScrapT);
+            deathScrap.transform.position = Vector3.Lerp(transform.position, position, lerpT);
+            
+            yield return null;
+        }
+        complete?.Invoke();
+    }
+
+    IEnumerator SpawnScrapAfterTime()
+    {
+        yield return new WaitForSeconds(2f);
+        deathScrap.SetActive(true);
+        MovingObjectUI.gameObject.SetActive(false);
     }
 
     public void InitializePath(Vector2 destinationWorldPosition)
@@ -60,7 +95,7 @@ public class RobotoLevel1 : BattleObject
     {
         // Interpolate to our target position
         _timeWalking += Time.deltaTime;
-        if (_targetPosition != null && _interpStart != null)
+        if (_targetPosition != null && _interpStart != null && Health > 0)
         {
             float t = walkCurve.Evaluate(_timeWalking * walkTime);
             transform.position = Vector3.Lerp((Vector3)_interpStart, (Vector3)_targetPosition, t);

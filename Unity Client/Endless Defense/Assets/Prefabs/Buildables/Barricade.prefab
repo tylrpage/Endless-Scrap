@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1718375730011966142}
   - component: {fileID: 3509675851454556870}
-  - component: {fileID: 1419290589045437760}
+  - component: {fileID: 3368407689866787368}
+  - component: {fileID: 216778726882325381}
   m_Layer: 0
-  m_Name: TurretLevel3
+  m_Name: Barricade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,18 +74,37 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 77396590d8c3b604b879acd8ec4f6252, type: 3}
+  m_Sprite: {fileID: 1566267960159620621, guid: 43e70aa7911d4a8a9ed8ffbc20e00e1e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.56, y: 2.56}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1419290589045437760
+--- !u!95 &3368407689866787368
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4591894219540490757}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a165b7f613d016743b5ea0dd1f2654de, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &216778726882325381
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,14 +113,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 4591894219540490757}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ec610cd32409f345a747396839ba04b, type: 3}
+  m_Script: {fileID: 11500000, guid: 2c403e8705011ba4aa71478fa6727891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 30
+  startingHealth: 8
+  movingObjectUIPrefabOverride: {fileID: 0}
+  size: {x: 1, y: 1}
+  isEnemy: 0
+  speed: 1
+  timeFromDeathToDestroy: 1.5
   cost:
-    Scrap: 30
-  size: {x: 3, y: 2}
+    Scrap: 5
   gridIndicator: {fileID: 8110046912916915122}
+  animator: {fileID: 3368407689866787368}
 --- !u!1001 &7472980798254725805
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -111,6 +136,10 @@ PrefabInstance:
     - target: {fileID: 696881439928662611, guid: b8ca326375e58954e9047b9fa487be34, type: 3}
       propertyPath: m_Name
       value: GridIndicator
+      objectReference: {fileID: 0}
+    - target: {fileID: 696881439928662611, guid: b8ca326375e58954e9047b9fa487be34, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7199331832834220608, guid: b8ca326375e58954e9047b9fa487be34, type: 3}
       propertyPath: m_RootOrder

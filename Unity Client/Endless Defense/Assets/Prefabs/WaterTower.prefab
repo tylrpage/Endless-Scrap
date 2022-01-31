@@ -101,10 +101,15 @@ MonoBehaviour:
   size: {x: 3, y: 3}
   isEnemy: 0
   speed: 1
+  timeFromDeathToDestroy: 0
   cost:
     Scrap: 0
   gridIndicator: {fileID: 243463353754842245}
-  waterSupplySprites: []
+  waterSupplySprites:
+  - {fileID: 6948480670881761016, guid: bc548db61c8b28a479ae6a1e52def678, type: 3}
+  - {fileID: -2589180903431568352, guid: bc548db61c8b28a479ae6a1e52def678, type: 3}
+  - {fileID: 4668049987710145745, guid: bc548db61c8b28a479ae6a1e52def678, type: 3}
+  spriteRenderer: {fileID: 7212545626024155513}
 --- !u!1001 &1466207976212843930
 PrefabInstance:
   m_ObjectHideFlags: 0

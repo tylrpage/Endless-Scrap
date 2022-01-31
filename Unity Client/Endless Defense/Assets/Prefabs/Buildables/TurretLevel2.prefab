@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1718375730011966142}
   - component: {fileID: 3509675851454556870}
-  - component: {fileID: 4055902259879678516}
+  - component: {fileID: 3368407689866787368}
+  - component: {fileID: 8204325548482797415}
   m_Layer: 0
   m_Name: TurretLevel2
   m_TagString: Untagged
@@ -73,18 +74,37 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 77396590d8c3b604b879acd8ec4f6252, type: 3}
+  m_Sprite: {fileID: 6485525489247480500, guid: 3b9f71bf1f0389d4ebff5c72969e5379, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.56, y: 2.56}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4055902259879678516
+--- !u!95 &3368407689866787368
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4591894219540490757}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f53b3250b5b61f84e8e3622ee5488d2d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8204325548482797415
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,11 +116,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e4e8bcc19bc2684e9d04071488d26be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 20
-  cost:
-    Scrap: 20
+  startingHealth: 50
+  movingObjectUIPrefabOverride: {fileID: 0}
   size: {x: 2, y: 2}
+  isEnemy: 0
+  speed: 1
+  cost:
+    Scrap: 50
   gridIndicator: {fileID: 8110046912916915122}
+  damage: 10
+  range: 3
+  animator: {fileID: 3368407689866787368}
+  spriteRenderer: {fileID: 3509675851454556870}
 --- !u!1001 &7472980798254725805
 PrefabInstance:
   m_ObjectHideFlags: 0

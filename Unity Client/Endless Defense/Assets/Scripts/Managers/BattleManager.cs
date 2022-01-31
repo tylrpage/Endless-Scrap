@@ -8,6 +8,9 @@ public class BattleManager : MonoBehaviour
 {
     [SerializeField] private float stepsPerSecond;
     [SerializeField] private GameObject battleObjectContainer;
+    [SerializeField] private RectTransform scrapCounter;
+    [SerializeField] private GameObject rebuildPanel;
+    [SerializeField] private WaterSupply waterSupply;
     
     private List<BattleObject> _battleObjects;
     private bool _playing = false;
@@ -19,12 +22,28 @@ public class BattleManager : MonoBehaviour
     private void Awake()
     {
         _battleObjects = new List<BattleObject>();
+        GameManager.Instance.BuildManager.EnableBuilding();
+        WaterSupply.WaterSupplyDied += WaterSupplyOnWaterSupplyDied;
+    }
+
+    private void WaterSupplyOnWaterSupplyDied()
+    {
+        _playing = false;
+        rebuildPanel.SetActive(true);
     }
 
     private void Update()
     {
         if (_playing)
         {
+            // For debugging purposes
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                EndBattle();
+                _playing = false;
+                return;
+            }
+            
             float secondsPerStep = 1f / stepsPerSecond;
             float timeSinceLastStep = Time.time - _lastStepTime;
             int stepsToDo = (int) Mathf.Floor(timeSinceLastStep / secondsPerStep);
@@ -48,6 +67,7 @@ public class BattleManager : MonoBehaviour
             {
                 StepAll();
             }
+
             else if (Input.GetKeyDown(KeyCode.Space))
             {
                 StartBattle();
@@ -57,6 +77,7 @@ public class BattleManager : MonoBehaviour
 
     public void StartBattle()
     {
+        GameManager.Instance.BuildManager.DisableBuilding();
         _lastStepTime = Time.time;
         _playing = true;
     }
@@ -64,6 +85,11 @@ public class BattleManager : MonoBehaviour
     public void AddBattleObject(BattleObject battleObject)
     {
         _battleObjects.Add(battleObject);
+    }
+
+    public void RemoveBattleObject(BattleObject battleObject)
+    {
+        _battleObjects.Remove(battleObject);
     }
 
     private void StepAll()
@@ -80,5 +106,26 @@ public class BattleManager : MonoBehaviour
         }
         
         GameManager.Instance.HordeManager.OnStep(_stepCount);
+    }
+
+    public void EndBattle()
+    {
+        waterSupply.ResetHealth();
+        rebuildPanel.SetActive(false);
+        
+        GameManager.Instance.BuildManager.EnableBuilding();
+        Vector3 scrapCounterWorldPosition = scrapCounter.transform.position;
+        foreach (var deadRobot in GameManager.Instance.GridManager.DeadRobots)
+        {
+            StartCoroutine(deadRobot.FlyScrap(scrapCounterWorldPosition, OnComplete));
+        }
+        GameManager.Instance.GridManager.DeadRobots.Clear();
+        void OnComplete()
+        {
+            GameManager.Instance.BuildManager.AddScrap(10);
+            // todo: play sound
+        }
+
+        GameManager.Instance.GridManager.ClearEnemyGrid();
     }
 }

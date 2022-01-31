@@ -11,8 +11,14 @@ public class GridManager : MonoBehaviour
 
     public Grid<EnemiesNode> EnemyGrid => _enemyGrid;
 
+    public List<RobotoLevel1> DeadRobots => _deadRobots;
+
+    public HashSet<RobotoLevel1> EnemyRobots => _enemyRobots;
+
     private Mesh _mesh;
     private Grid<EnemiesNode> _enemyGrid;
+    private List<RobotoLevel1> _deadRobots = new List<RobotoLevel1>();
+    private HashSet<RobotoLevel1> _enemyRobots = new HashSet<RobotoLevel1>();
 
     private void Awake()
     {
@@ -88,6 +94,39 @@ public class GridManager : MonoBehaviour
             
             node.Data.Remove(battleObject);
         }
+    }
+
+    public void ClearEnemyGrid()
+    {
+        // int width = _enemyGrid.GetWidth();
+        // int height = _enemyGrid.GetHeight();
+        // for (int i = 0; i < width; i++)
+        // {
+        //     for (int j = 0; j < height; j++)
+        //     {
+        //         var node = _enemyGrid.GetGridObject(i, j);
+        //         foreach (var battleObject in node.Data)
+        //         {
+        //             Destroy(battleObject.gameObject);
+        //             GameManager.Instance.BattleManager.RemoveBattleObject(battleObject);
+        //         }
+        //         node.Data.Clear();
+        //     }
+        // }
+
+        foreach (var enemyRobot in _enemyRobots)
+        {
+            Destroy(enemyRobot.gameObject);
+            GameManager.Instance.BattleManager.RemoveBattleObject(enemyRobot);
+        }
+        _enemyRobots.Clear();
+        
+        // reset enemy grid
+        float cellSize = 0.5f;
+        int gridWidth = (GameManager.Instance.BuildManager.GridSize.Item1 + 10) * (int)(1f / cellSize);
+        int gridHeight = (GameManager.Instance.BuildManager.GridSize.Item2 + 10) * (int)(1f / cellSize);
+        Vector2 centeredPosition = new Vector2(-gridWidth / 2f * cellSize, -gridHeight / 2f * cellSize);
+        _enemyGrid = new Grid<EnemiesNode>(gridWidth, gridHeight, cellSize, centeredPosition, (grid, x, y) => new EnemiesNode(x, y));
     }
 
     public void MoveEnemyOnGrid(Grid<EnemiesNode> grid, BattleObject battleObject, Vector2 originalPosition,

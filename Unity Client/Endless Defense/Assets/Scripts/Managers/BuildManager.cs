@@ -5,12 +5,13 @@ using System.Drawing;
 using System.Linq;
 using Pathfinding;
 using UnityEngine;
+using Point = Pathfinding.Point;
 
 public class BuildManager : MonoBehaviour
 {
     public enum BuildingType
     {
-        TurretLevel1, TurretLevel2, TurretLevel3
+        TurretLevel1, TurretLevel2, Barricade
     }
 
     [Serializable]
@@ -31,6 +32,14 @@ public class BuildManager : MonoBehaviour
             return new Currencies()
             {
                 Scrap = a.Scrap - b.Scrap
+            };
+        }
+        
+        public static Currencies operator *(Currencies a, int b)
+        {
+            return new Currencies()
+            {
+                Scrap = a.Scrap * b
             };
         }
 
@@ -85,12 +94,14 @@ public class BuildManager : MonoBehaviour
     public static event Action<Currencies> CurrenciesUpdated;
 
     public (int, int) GridSize => _gridSize;
+    public Currencies CurrenciesAmount => _currencies;
     public Grid<Node<Buildable>> BuildablesGrid => _buildablesGrid;
 
     [SerializeField] private SerializableDictionary<BuildingType, Buildable> buildingPrefabs;
     [SerializeField] private BuildingIndicator buildingIndicator;
     [SerializeField] private Transform buildingContainer;
     [SerializeField] private float gridsPerUnit;
+    [SerializeField] private RectTransform buildButtonsContainer;
     
     private Currencies _currencies = new Currencies()
     {
@@ -102,6 +113,7 @@ public class BuildManager : MonoBehaviour
     private (int, int) _gridSize;
     private Grid<Node<Buildable>> _buildablesGrid;
     private HashSet<Buildable> _previouslyOverlappedBuildings = new HashSet<Buildable>();
+    private bool _enableBuilding;
 
     private void Awake()
     {
@@ -117,6 +129,19 @@ public class BuildManager : MonoBehaviour
         _gridSize = (width, height);
         Vector2 centeredPosition = new Vector2(-width / 2f * cellSize, -height / 2f * cellSize);
         _buildablesGrid = new Grid<Node<Buildable>>(width, height, cellSize, centeredPosition, (grid, x, y) => new Node<Buildable>(x, y));
+    }
+
+    public void EnableBuilding()
+    {
+        _enableBuilding = true;
+        buildButtonsContainer.gameObject.SetActive(true);
+    }
+    
+    public void DisableBuilding()
+    {
+        _enableBuilding = false;
+        ClearSelection();
+        buildButtonsContainer.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -221,8 +246,8 @@ public class BuildManager : MonoBehaviour
         if (buildingPrefabs.TryGetValue(buildingType.BuildingType, out Buildable buildable))
         {
             _selectedBuilding = buildable;
-            buildingIndicator.SetBuilding(buildable);
             buildingIndicator.SetActive(true);
+            upAfterBuildButtonClicked = false;
         }
         else
         {
@@ -230,16 +255,45 @@ public class BuildManager : MonoBehaviour
         }
     }
 
+    private bool upAfterBuildButtonClicked;
+    private Vector2? dragBeginSnappedPosition;
+
     private void Update()
     {
-        if (_selectedBuilding != null && _camera != null)
+        if (_selectedBuilding != null && _camera != null && upAfterBuildButtonClicked)
         {
             // Snap to grid under mouse
             Vector2 mouseWorldPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
             int selectedBuildSizeX = (int) Mathf.Floor(_selectedBuilding.Size.x);
             int selectedBuildSizeY = (int) Mathf.Floor(_selectedBuilding.Size.y);
             Vector2 snappedPosition = new Vector2(GetRoundedPosition(mouseWorldPosition.x, selectedBuildSizeX), GetRoundedPosition(mouseWorldPosition.y, selectedBuildSizeY));
-            buildingIndicator.transform.position = snappedPosition;
+
+            Vector2[] points;
+            if (dragBeginSnappedPosition != null && dragBeginSnappedPosition != snappedPosition && _selectedBuilding.Size.x == 1 && _selectedBuilding.Size.y == 1)
+            {
+                Vector2 dragBeginSnappedPositionNotNull = (Vector2) dragBeginSnappedPosition;
+                
+                // get diagonal distance
+                float dx = snappedPosition.x - dragBeginSnappedPositionNotNull.x;
+                float dy = snappedPosition.y - dragBeginSnappedPositionNotNull.y;
+                float diagonalDistance = Math.Max(Math.Abs(dx), Math.Abs(dy));
+
+                int diagonalDistanceCeil = (int)Mathf.Ceil(diagonalDistance);
+                // get points
+                points = new Vector2[diagonalDistanceCeil + 1];
+                for (int step = 0; step <= diagonalDistanceCeil; step++)
+                {
+                    float t = Util.LosePrecision((float)step / diagonalDistance);
+                    Vector2 lerpedPoint = new Vector2(
+                        (int)Math.Round(Mathf.Lerp(dragBeginSnappedPositionNotNull.x, snappedPosition.x, t)),
+                        (int)Math.Round(Mathf.Lerp(dragBeginSnappedPositionNotNull.y, snappedPosition.y, t)));
+                    points[step] = lerpedPoint;
+                }
+            }
+            else
+            {
+                points = new[] { snappedPosition };
+            }
             
             // DEBUGGING
             if (Input.GetKeyDown(KeyCode.D))
@@ -247,9 +301,23 @@ public class BuildManager : MonoBehaviour
                 var indexes = GetPlacedBuildingIndexes(snappedPosition, _selectedBuilding.Size, true);
                 Debug.Log($"DEBUG INFO, {String.Join(", ", indexes)}");
             }
+
+            // Get all buildables overlapping with our points
+            HashSet<Buildable> overlappingBuildables = new HashSet<Buildable>();
+            bool outOfBounds = false;
+            foreach (var point in points)
+            {
+                var buildablesOverlappingWithThisPoint = GetBuildablesAtPosition(point, _selectedBuilding.Size);
+                overlappingBuildables.UnionWith(buildablesOverlappingWithThisPoint); 
+                
+                _buildablesGrid.GetXY(point, out int x, out int y);
+                if (!_buildablesGrid.IsValidPosition(x, y))
+                {
+                    outOfBounds = true;
+                }
+            }
             
             // Un highlight buildables that are no longer overlapped
-            HashSet<Buildable> overlappingBuildables = GetBuildablesAtPosition(snappedPosition, _selectedBuilding.Size);
             foreach (var noLongerOverlappedBuildable in _previouslyOverlappedBuildings.Except(overlappingBuildables))
             {
                 noLongerOverlappedBuildable.GridIndicator.SetActive(false);
@@ -263,37 +331,64 @@ public class BuildManager : MonoBehaviour
             _previouslyOverlappedBuildings = overlappingBuildables;
             // Set the building indicator's grid indicator's color based on if we are overlapping with something
             bool overlapping = overlappingBuildables.Count > 0;
-            buildingIndicator.GridIndicator.SetSuccess(!overlapping);
-            
-            // todo: check that we are clicking on the grid and not on a ui element
-            if (Input.GetMouseButtonDown(0) && !CameraControls.IsDragging())
+            // Check if we can afford it
+            Currencies cost = _selectedBuilding.GetCost() * points.Length;
+            bool canAfford = _currencies >= cost;
+            bool success = !overlapping && canAfford && !outOfBounds;
+            buildingIndicator.SetPoints(_selectedBuilding, points, success);
+
+            if (!CameraControls.IsDragging())
             {
-                // Check if we can afford it
-                Currencies cost = _selectedBuilding.GetCost();
-                if (_currencies >= cost)
+                if (Input.GetMouseButtonDown(0))
                 {
-                    // Check that this position isn't on top of any other buildables
-                    if (!overlapping)
+                    dragBeginSnappedPosition = snappedPosition;
+                }
+                else if (Input.GetMouseButtonUp(0))
+                {
+                    if (success)
                     {
-                        // Create the building
-                        Buildable newBuildable = Instantiate(_selectedBuilding, snappedPosition, Quaternion.identity, buildingContainer);
+                        // Create the buildings
+                        foreach (var point in points)
+                        {
+                            Buildable newBuildable = Instantiate(_selectedBuilding, point, Quaternion.identity, buildingContainer);
+                        }
 
                         // Debit the currencies
                         _currencies = _currencies - cost;
                         UpdateCurrencies();
-                        buildingIndicator.SetActive(false);
-                        _selectedBuilding = null;
+                        ClearSelection();
                     }
                     else
                     {
-                        Debug.Log("On top of built on square!");
+                        ClearSelection();
                     }
                 }
-                else
-                {
-                    Debug.Log("Cannot afford!");
-                }
             }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                ClearSelection();
+            }
+        }
+        
+        // When the mouse button comes up after the building button is pressed, now we can build
+        // THis prevents the building being immedietly placed when clicking the button
+        if (Input.GetMouseButtonUp(0) && !upAfterBuildButtonClicked)
+        {
+            upAfterBuildButtonClicked = true;
+        }
+    }
+
+    private void ClearSelection()
+    {
+        dragBeginSnappedPosition = null;
+        buildingIndicator.SetActive(false);
+        _selectedBuilding = null;
+        buildingIndicator.Clear();
+        
+        foreach (var building in _previouslyOverlappedBuildings)
+        {
+            building.GridIndicator.SetActive(false);
         }
     }
 
@@ -332,5 +427,11 @@ public class BuildManager : MonoBehaviour
     private void UpdateCurrencies()
     {
         CurrenciesUpdated?.Invoke(_currencies);
+    }
+
+    public void AddScrap(int scrap)
+    {
+        _currencies.Scrap += scrap;
+        UpdateCurrencies();
     }
 }
