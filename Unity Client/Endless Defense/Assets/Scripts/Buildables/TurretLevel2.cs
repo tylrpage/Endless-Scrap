@@ -24,7 +24,7 @@ public class TurretLevel2 : Buildable
 
     public override void StepAction()
     {
-        if (_target != null)
+        if (_target != null && _target.Health > 0)
         {
             // Shoot the target
             _target.TakeDamage(damage);
@@ -59,7 +59,11 @@ public class TurretLevel2 : Buildable
                 if (enemiesNode.Data.Count > 0)
                 {
                     // nulls can get into the hash set of enemies...somehow
-                    return enemiesNode.Data.FirstOrDefault(x => x != null);
+                    var suitableTarget = enemiesNode.Data.FirstOrDefault(x => x != null && x.Health > 0);
+                    if (suitableTarget != null)
+                    {
+                        return suitableTarget;
+                    }
                 }
             }
         }

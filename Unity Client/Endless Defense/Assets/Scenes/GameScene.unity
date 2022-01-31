@@ -17908,7 +17908,7 @@ MonoBehaviour:
   rebuildPanel: {fileID: 874908280}
   waterSupply: {fileID: 1945318391}
   submitScoreButton: {fileID: 905593700}
-  playButton: {fileID: 0}
+  playButton: {fileID: 1638972298}
 --- !u!4 &219122312
 Transform:
   m_ObjectHideFlags: 0
@@ -18026,7 +18026,7 @@ MonoBehaviour:
   robotPrefab: {fileID: 7807756204336573718, guid: cb59ede35e4619e48ab650ccfc295dd9, type: 3}
   battleObjectContainer: {fileID: 1772525124}
   baseRobotSpawnNumber: 0.5
-  robotSpawnNumberIncreasePerStep: 0.025
+  robotSpawnNumberIncreasePerStep: 0.016666668
 --- !u!114 &219122319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18965,11 +18965,11 @@ RectTransform:
   - {fileID: 2072459648}
   - {fileID: 961790917}
   - {fileID: 874908281}
+  - {fileID: 1638972299}
   - {fileID: 905593701}
   - {fileID: 1838228672}
   - {fileID: 991925711}
   - {fileID: 2066575334}
-  - {fileID: 1638972299}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19744,11 +19744,11 @@ RectTransform:
   m_Children:
   - {fileID: 929941765}
   m_Father: {fileID: 434307770}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 197.09, y: -20}
+  m_AnchoredPosition: {x: 296, y: -20}
   m_SizeDelta: {x: 85.7, y: 65.42}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &905593702
@@ -20292,7 +20292,7 @@ RectTransform:
   m_Children:
   - {fileID: 2017349605}
   m_Father: {fileID: 434307770}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -21614,11 +21614,11 @@ RectTransform:
   m_Children:
   - {fileID: 1194139413}
   m_Father: {fileID: 434307770}
-  m_RootOrder: 7
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 296, y: -20}
+  m_AnchoredPosition: {x: 200, y: -20}
   m_SizeDelta: {x: 85.7, y: 65.42}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1638972300
@@ -22075,7 +22075,7 @@ RectTransform:
   m_Children:
   - {fileID: 520584395}
   m_Father: {fileID: 434307770}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -22676,7 +22676,7 @@ RectTransform:
   m_Children:
   - {fileID: 2070394271}
   m_Father: {fileID: 434307770}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
